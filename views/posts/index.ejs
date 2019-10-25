@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>THE INDEX PAGE</h1>
+    <a href="/auth/logout">Log out</a><br/>
+    <a href="/posts/new">Post your broken code!</a>
+    <% for(let i = 0; i < posts.length; i++) { %>
+        <div>
+            <h3><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></h3>
+            <small><%= posts[i].language %></small>
+        </div>
+    <% } %>
+</body>
+</html>
