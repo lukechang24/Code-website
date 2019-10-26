@@ -21,14 +21,14 @@
     <div>
         <h1>Comments</h1>
         <form action="/posts/<%= post._id %>/comment" method="POST">
-            <input type="text" name="comment">
+            <input type="text" name="comment" autocomplete="off">
             <button type="submit">Comment</button>
         </form>
         <% for(let i = 0; i < comments.length; i++) { %>
-            <p style="display:inline"><%= comments[i].comment %></p>
-            <% if(postCreator._id.toString() === currentUser._id.toString()) { %>
-                <button>X</button><br/>
-            <% } %>
+            <p style="display:inline"><%= comments[i].username %>: <%= comments[i].comment %></p>
+            <% if(postCreator._id.toString() === currentUser._id.toString() || currentUser._id.toString() === comments[i].postedBy.toString()) { %>
+                <button>X</button>
+            <% } %><br/>
         <% } %>
     </div>
 </body>

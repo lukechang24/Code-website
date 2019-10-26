@@ -57,11 +57,23 @@ router.post("/", async (req, res) => {
 
 router.post("/:id/comment", async (req, res) => {
     try {
-        const comment = await Comment.create({postId: req.params.id, comment: req.body.comment})
-        const user = await User.findOne({username: req.session.username});
-        user.comments.push(comment);
-        user.save();
-        res.redirect(`/posts/${req.params.id}`)
+        if(req.session.username) {
+            // let dateFromObjectId = function(id) {
+            //     return new Date(parseInt(id.substring(0, 8), 16) * 1000);
+            // };
+            const comment = await Comment.create({postId: req.params.id, postedBy: req.session.userId, username: req.session.username, comment: req.body.comment})
+            const user = await User.findOne({username: req.session.username});
+            user.comments.push(comment);
+            user.save();
+            console.log(comment)
+            // console.log(dateFromObjectId(comment._id.toString()));
+            res.redirect(`/posts/${req.params.id}`);
+        } else {
+            req.session.previousURL = `/posts/${req.params.id}`;
+            res.render("auth/signup", {
+                message: ""
+            });
+        }
     } catch(err) {
         console.log(err);
     }
@@ -70,17 +82,15 @@ router.post("/:id/comment", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const post = await Post.findOne({_id: req.params.id});
-        const creatorId = post.postedBy;
-        const postCreator = await User.findOne({_id: creatorId})
-        const currentUser = await User.findOne({_id: req.session.userId});
-        console.log(postCreator._id, "This is post creator")
-        console.log(currentUser._id, "This is currentUser")
+        const postCreator = await User.findOne({_id: post.postedBy});
+        const currentUser = await User.findOne({_id: req.session.userId}) || {_id: ""};
         const comments = await Comment.find({postId: req.params.id}) || [];
+
         res.render("posts/show", {
             post,
             postCreator,
             currentUser,
-            comments,
+            comments
         })
     } catch(err) {
         console.log(err)

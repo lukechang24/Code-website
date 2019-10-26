@@ -14,7 +14,7 @@ router.get("/login", (req, res) => {
 
 router.get("/signup", (req, res) => {
     res.render("auth/signup", {
-        message: ""
+        message: "",
     })
 })
 
@@ -26,7 +26,11 @@ router.post("/login", async (req, res) => {
                 req.session.isLogged = true;
                 req.session.username = foundUser.username;
                 req.session.userId = foundUser._id;
-                res.redirect("/posts");
+                if(req.session.previousURL) {
+                    res.redirect(req.session.previousURL);
+                } else {
+                    res.redirect("/posts");
+                }
             } else {
                 res.render("auth/login", {
                     message: "The username or password you entered is incorrect"
@@ -44,6 +48,11 @@ router.post("/login", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
     try {
+        if(!req.body.username || !req.body.email || !req.body.password) {
+            res.render("auth/signup", {
+                message: "Please fill out the entire form"
+            })
+        }
         const userExists = await User.findOne({username: req.body.username});
         if(userExists) {
             res.render("auth/signup", {
@@ -60,8 +69,12 @@ router.post("/signup", async (req, res) => {
             console.log(createdUser);
             req.session.isLogged = true;
             req.session.username = createdUser.username;
-            req.session.userId = createdUser._id
-            res.redirect("/posts");
+            req.session.userId = createdUser._id;
+            if(req.session.previousURL) {
+                res.redirect(req.session.previousURL);
+            } else {
+                res.redirect("/posts");
+            }
         }
     } catch(err) {
         console.log(err);
