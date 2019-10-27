@@ -17,18 +17,23 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/new", async (req, res) => {
-    const user = await User.findOne({username: req.session.username});
-    res.render("posts/new", {
-        user
-    });
+router.get("/new", (req, res) => {
+    if(req.session.userID) {
+        console.log(req.session.userID)
+        res.render("posts/new");
+    } else {
+        req.session.previousURL = `/posts/new`;
+        res.render("auth/login", {
+            message: "You must be logged in to create a post"
+        });
+    }
 })
 
 router.post("/", async (req, res) => {
     try {
+        req.body.postedBy = req.session.userID;
         const post = await Post.create(req.body);
-        const user = await User.findOne({username: req.session.username});
-        await post.updateOne({postedBy: user._id});
+        await post.updateOne({postedBy: req.session.userID});
         console.log(post);
         res.redirect("/posts");
     }catch (err) {
@@ -36,32 +41,15 @@ router.post("/", async (req, res) => {
     }
 })
 
-// router.post("/:id", async (req, res) => {
-//     try {
-//         console.log(req.session.username)
-//         if(req.body.comment === "") {
-//             res.redirect(`/codes/${req.params.id}`);
-//         } else {
-//             const code = await Code.findByIdAndUpdate(req.params.id, {$push: {comments: req.body.comment}})
-//             const user = await User.findOne({username: req.session.username});
-//             user.comments.push(req.body.comment);
-//             const user = await User.findOneAndUpdate({username: req.session.username}, {$push: {comments: code}}, {new: true});
-//             // await user.save();
-//             console.log(user);
-//             res.redirect(`/codes/${req.params.id}`)
-//         }
-//     } catch(err) {
-//         console.log(err);
-//     }
-// })
-
 router.post("/:id/comment", async (req, res) => {
     try {
-        if(req.session.username) {
+        if(!req.body.comment) {
+            res.redirect(`/posts/${req.params.id}`);
+        } else if(req.session.username) {
             // let dateFromObjectId = function(id) {
             //     return new Date(parseInt(id.substring(0, 8), 16) * 1000);
             // };
-            const comment = await Comment.create({postId: req.params.id, postedBy: req.session.userId, username: req.session.username, comment: req.body.comment})
+            const comment = await Comment.create({postId: req.params.id, postedBy: req.session.userID, username: req.session.username, comment: req.body.comment})
             const user = await User.findOne({username: req.session.username});
             user.comments.push(comment);
             user.save();
@@ -70,8 +58,8 @@ router.post("/:id/comment", async (req, res) => {
             res.redirect(`/posts/${req.params.id}`);
         } else {
             req.session.previousURL = `/posts/${req.params.id}`;
-            res.render("auth/signup", {
-                message: ""
+            res.render("auth/login", {
+                message: "You must be logged in to comment"
             });
         }
     } catch(err) {
@@ -94,6 +82,16 @@ router.get("/:id", async (req, res) => {
         })
     } catch(err) {
         console.log(err)
+    }
+})
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const post = await Post.findOneAndDelete({_id: req.params.id});
+        console.log(post)
+        res.redirect("/posts");
+    } catch(err) {
+        console.log(err);
     }
 })
 

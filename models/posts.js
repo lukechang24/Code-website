@@ -6,7 +6,6 @@ const postSchema = new mongoose.Schema({
     body: {type: String, required: true},
     postedBy: String,
     comments: [String],
-    liked: [String]
 })
 
 const Post = mongoose.model("Post", postSchema);

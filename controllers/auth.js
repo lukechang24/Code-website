@@ -25,7 +25,7 @@ router.post("/login", async (req, res) => {
             if(bcrypt.compareSync(req.body.password, foundUser.password)) {
                 req.session.isLogged = true;
                 req.session.username = foundUser.username;
-                req.session.userId = foundUser._id;
+                req.session.userID = foundUser._id;
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
@@ -69,7 +69,7 @@ router.post("/signup", async (req, res) => {
             console.log(createdUser);
             req.session.isLogged = true;
             req.session.username = createdUser.username;
-            req.session.userId = createdUser._id;
+            req.session.userID = createdUser._id;
             if(req.session.previousURL) {
                 res.redirect(req.session.previousURL);
             } else {
