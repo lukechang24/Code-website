@@ -30,8 +30,7 @@ router.get("/new", (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        req.body.postedBy = req.session.displayName;
-        req.body.userID = req.session.userID;
+        req.body.creator = req.session.userID;
         const post = await Post.create(req.body);
         console.log(post);
         const user = await User.findOne({username: req.session.username});
@@ -71,20 +70,31 @@ router.post("/:id/comment", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const post = await Post.findOne({_id: req.params.id});
-        const postCreator = await User.findOne({_id: post.userID}) || {_id: ""};
-        const currentUser = await User.findOne({username: req.session.username}) || {_id: ""};
+        const post = await Post.findOne({_id: req.params.id})
+        .populate({path: "creator"});
+        console.log(post);
+        const currentUser = await User.findOne({username: req.session.username}) || {_id: "", username: ""};
         const comments = await Comment.find({postId: req.params.id}) || [];
-        console.log(postCreator, "post creator")
         console.log(currentUser, "current user")
         res.render("posts/show", {
             post,
-            postCreator,
             currentUser,
             comments
         })
     } catch(err) {
         console.log(err)
+    }
+})
+
+router.delete("/:id/:commentID", async (req, res) => {
+    try {
+        const comment = await Comment.findByIdAndDelete(req.params.commentID);
+        const user = await User.findOneAndUpdate({_id: comment.userID}, {$pull: {comments: req.params.commentID}});
+        console.log(user);
+        user.save();
+        res.redirect(`/posts/${req.params.id}`);
+    } catch(err) {
+        console.log(err);
     }
 })
 

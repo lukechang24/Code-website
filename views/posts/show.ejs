@@ -11,7 +11,7 @@
         <a href="/posts">Back to all Posts</a>
         <div>
             <h1><%= post.title %></h1>
-            <small>Posted By: <%= post.postedBy %></small>
+            <small>Posted By: <a href="/users/<%= post.creator._id %>"><%= post.creator.displayName %></a></small>
         </div>
         <div>
             <p><%= post.description %></p>
@@ -27,14 +27,16 @@
             <button type="submit">Comment</button>
         </form>
         <% for(let i = 0; i < comments.length; i++) { %>
-            <p><a href="users/<%= comments[i].userID %>"><%= comments[i].commentedBy %></a><br/> <%= comments[i].comment %></p>
-            <% if(postCreator.username === currentUser.username || currentUser._id.toString() === comments[i].userID.toString()) { %>
-                <a href="#">delete</a>
+            <p><a href="/users/<%= comments[i].userID %>"><%= comments[i].commentedBy %></a><br/> <%= comments[i].comment %></p>
+            <% if(post.creator.username === currentUser.username || currentUser._id.toString() === comments[i].userID) { %>
+                <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
+                    <button type="submit">delete comment</button>
+                </form>
             <% } %><br/>
         <% } %>
     </div>
     <div>
-        <% if(postCreator.username === currentUser.username) { %>
+        <% if(post.creator.username === currentUser.username) { %>
             <form action="/posts/<%= post._id %>/?_method=DELETE" method="POST">
                 <button type="submit">Delete Post</button>
             </form>

@@ -7,14 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/users">All Users</a>
-    <h1>All Post</h1>
+    <a href="/posts">All Posts</a>
+    <h1>All Users</h1>
     <a href="/auth/logout">Log out</a><br/>
-    <a href="/posts/new">Post your broken code!</a>
-    <% for(let i = 0; i < posts.length; i++) { %>
+    <% for(let i = 0; i < users.length; i++) { %>
         <div>
-            <h3><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></h3>
-            <small><%= posts[i].language %></small>
+            <h3><a href="/users/<%= users[i]._id %>"><%= users[i].displayName %></a></h3>
         </div>
     <% } %>
 </body>

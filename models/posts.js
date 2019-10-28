@@ -4,8 +4,7 @@ const postSchema = new mongoose.Schema({
     language: {type: String, required: true},
     description: {type: String, required: true},
     body: {type: String, required: true},
-    postedBy: String,
-    userID: String,
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     comments: [String],
 })
 
