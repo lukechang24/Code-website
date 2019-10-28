@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
     postId: String,
-    postedBy: String,
-    username: String,
+    commentedBy: String,
+    userID: String,
     comment: String,
     liked: [String]
 })

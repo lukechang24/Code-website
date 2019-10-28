@@ -18,8 +18,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/new", (req, res) => {
-    if(req.session.userID) {
-        console.log(req.session.userID)
+    if(req.session.username) {
         res.render("posts/new");
     } else {
         req.session.previousURL = `/posts/new`;
@@ -31,10 +30,13 @@ router.get("/new", (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        req.body.postedBy = req.session.userID;
+        req.body.postedBy = req.session.displayName;
+        req.body.userID = req.session.userID;
         const post = await Post.create(req.body);
-        await post.updateOne({postedBy: req.session.userID});
         console.log(post);
+        const user = await User.findOne({username: req.session.username});
+        user.posts.push(post);
+        user.save();
         res.redirect("/posts");
     }catch (err) {
         console.log(err);   
@@ -49,7 +51,7 @@ router.post("/:id/comment", async (req, res) => {
             // let dateFromObjectId = function(id) {
             //     return new Date(parseInt(id.substring(0, 8), 16) * 1000);
             // };
-            const comment = await Comment.create({postId: req.params.id, postedBy: req.session.userID, username: req.session.username, comment: req.body.comment})
+            const comment = await Comment.create({postId: req.params.id, userID: req.session.userID, commentedBy: req.session.displayName, comment: req.body.comment})
             const user = await User.findOne({username: req.session.username});
             user.comments.push(comment);
             user.save();
@@ -70,10 +72,11 @@ router.post("/:id/comment", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const post = await Post.findOne({_id: req.params.id});
-        const postCreator = await User.findOne({_id: post.postedBy});
-        const currentUser = await User.findOne({_id: req.session.userId}) || {_id: ""};
+        const postCreator = await User.findOne({_id: post.userID}) || {_id: ""};
+        const currentUser = await User.findOne({username: req.session.username}) || {_id: ""};
         const comments = await Comment.find({postId: req.params.id}) || [];
-
+        console.log(postCreator, "post creator")
+        console.log(currentUser, "current user")
         res.render("posts/show", {
             post,
             postCreator,

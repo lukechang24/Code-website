@@ -20,12 +20,13 @@ router.get("/signup", (req, res) => {
 
 router.post("/login", async (req, res) => {
     try {
-        const foundUser = await User.findOne({username: req.body.username});
-        if(foundUser) {
-            if(bcrypt.compareSync(req.body.password, foundUser.password)) {
+        const user = await User.findOne({username: req.body.username});
+        if(user) {
+            if(bcrypt.compareSync(req.body.password, user.password)) {
                 req.session.isLogged = true;
-                req.session.username = foundUser.username;
-                req.session.userID = foundUser._id;
+                req.session.username = user.username;
+                req.session.userID = user._id;
+                req.session.displayName = user.displayName;
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
@@ -48,7 +49,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
     try {
-        if(!req.body.username || !req.body.email || !req.body.password) {
+        if(!req.body.username || !req.body.displayName || !req.body.password) {
             res.render("auth/signup", {
                 message: "Please fill out the entire form"
             })
@@ -64,12 +65,13 @@ router.post("/signup", async (req, res) => {
             const userDb = {};
             userDb.username = req.body.username;
             userDb.password = passwordHash;
-            userDb.email = req.body.email;
+            userDb.displayName = req.body.displayName;
             const createdUser = await User.create(userDb);
             console.log(createdUser);
             req.session.isLogged = true;
             req.session.username = createdUser.username;
             req.session.userID = createdUser._id;
+            req.session.displayName = createdUser.displayName;
             if(req.session.previousURL) {
                 res.redirect(req.session.previousURL);
             } else {

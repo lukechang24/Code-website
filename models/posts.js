@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema({
     description: {type: String, required: true},
     body: {type: String, required: true},
     postedBy: String,
+    userID: String,
     comments: [String],
 })
 

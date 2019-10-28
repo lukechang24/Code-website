@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
     username: String,
+    displayName: String,
     password: String,
     email: String,
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: "Post"}],
