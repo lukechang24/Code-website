@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
     postId: String,
-    commentedBy: String,
-    userID: String,
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     comment: String,
     liked: [String]
 })

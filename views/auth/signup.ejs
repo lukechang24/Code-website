@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Sign up</h1>
-    <%= message %>
-    <form action="/auth/signup" method="POST">
-        <input type="text" name="username" placeholder="Username" autocomplete="off"><br>
-        <!-- <input type="text" name="email" placeholder="email"><br> -->
-        <input type="password" name="password" placeholder="Password"><br>
-        <input type="text" name="displayName" placeholder="Display name" autocomplete="off"><br>
-        <button type="submit">Sign up</button>
-    </form>
-    <a href="/auth/login">Already have an account? Click here to log in</a>
-</body>
-</html>
+<%- include("../partials/header.ejs") %>
+    <div class="auth-div">
+        <h1>Sign up</h1>
+        <small><%= message %></small>
+        <form action="/auth/signup" method="POST">
+            Username: <input type="text" name="username" autocomplete="off">
+            Password: <input type="password" name="password">
+            Display Name: <input type="text" name="displayName" autocomplete="off"><br>
+            <button type="submit">Sign up</button>
+        </form>
+        <a href="/auth/login">Already have an account? Click here to log in</a>
+    </div>
+<%- include("../partials/footer.ejs") %>

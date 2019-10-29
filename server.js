@@ -10,6 +10,7 @@ app.set("view engine", "ejs")
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(express.static("public"))
 app.use(session({
     secret: "this is a random secret string",
     resave: false,

@@ -27,8 +27,8 @@
             <button type="submit">Comment</button>
         </form>
         <% for(let i = 0; i < comments.length; i++) { %>
-            <p><a href="/users/<%= comments[i].userID %>"><%= comments[i].commentedBy %></a><br/> <%= comments[i].comment %></p>
-            <% if(post.creator.username === currentUser.username || currentUser._id.toString() === comments[i].userID) { %>
+            <p><a href="/users/<%= comments[i].creator._id %>"><%= comments[i].creator.displayName %></a><br/> <%= comments[i].comment %></p>
+            <% if(post.creator.username === currentUser.username || currentUser.username === comments[i].creator.username) { %>
                 <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
                     <button type="submit">delete comment</button>
                 </form>

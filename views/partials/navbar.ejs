@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/style.css">
+<link href="https://fonts.googleapis.com/css?family=Electrolize&display=swap" rel="stylesheet">
+<div class="nav">
+    <div class="nav-header">
+        <div class="nav-left">
+            <a href="/" class="nav-link">HOME</a>
+        </div>
+        <div class="nav-center"></div>
+        <div class="nav-right">
+            <a href="/auth/signup" class="nav-link">SIGN UP</a>
+            <a href="/auth/login" class="nav-link">LOG IN</a>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="overlay-content">
+            <a href="" class="overlay-link">Authors</a>
+            <a href="" class="overlay-link">Articles</a>
+        </div>
+    </div>
+</div>
+<script>
+    const hamburgerMenu = document.querySelector(".hamburger-menu");
+    const overlay = document.querySelector(".overlay");
+    hamburgerMenu.addEventListener("click", (e) => {
+        e.currentTarget.classList.toggle("open");
+        overlay.classList.toggle("show");
+    })
+</script>

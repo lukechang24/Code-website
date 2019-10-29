@@ -23,12 +23,12 @@ router.post("/login", async (req, res) => {
         const user = await User.findOne({username: req.body.username});
         if(user) {
             if(bcrypt.compareSync(req.body.password, user.password)) {
-                req.session.currentUser = user;
-                delete req.session.currentUser.password
-                console.log(req.session.currentUser)
-                req.session.username = user.username;
-                req.session.userID = user._id;
-                req.session.displayName = user.displayName;
+                const currentUser = {
+                    username: user.username,
+                    userID: user._id,
+                    displayName: user.displayName
+                }
+                req.session.currentUser = currentUser;
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
@@ -69,12 +69,12 @@ router.post("/signup", async (req, res) => {
             userDb.password = passwordHash;
             userDb.displayName = req.body.displayName;
             const createdUser = await User.create(userDb);
-            req.session.currentUser = createdUser;
-            delete req.session.currentUser.password
-            console.log(req.session.currentUser)
-            // req.session.username = createdUser.username;
-            // req.session.userID = createdUser._id;
-            // req.session.displayName = createdUser.displayName;
+            const currentUser = {
+                username: createdUser.username,
+                userID: createdUser._id,
+                displayName: createdUser.displayName
+            }
+            req.session.currentUser = currentUser;
             if(req.session.previousURL) {
                 res.redirect(req.session.previousURL);
             } else {
