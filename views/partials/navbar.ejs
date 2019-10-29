@@ -7,8 +7,13 @@
         </div>
         <div class="nav-center"></div>
         <div class="nav-right">
-            <a href="/auth/signup" class="nav-link">SIGN UP</a>
-            <a href="/auth/login" class="nav-link">LOG IN</a>
+            <% if(user.username) { %>
+                <a href="/users/<%= user.userID %>" class="nav-link">MY PROFILE</a>
+                <a href="/auth/logout" class="nav-link">LOG OUT</a>
+            <% } else { %>
+                <a href="/auth/signup" class="nav-link">SIGN UP</a>
+                <a href="/auth/login" class="nav-link">LOG IN</a>
+            <% } %>
             <div class="hamburger-menu">
                 <div class="bar"></div>
                 <div class="bar"></div>

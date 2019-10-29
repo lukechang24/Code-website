@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
         }
         const posts = await Post.find({});
         res.render("posts/index", {
+            user: req.session.currentUser,
             posts
         });
     } catch(err) {

@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<%- include("../partials/header") %>
 <body>
-    <%- include("../partials/navbar.ejs") %>
-    <a href="/users">All Users</a>
-    <h1>All Post</h1>
-    <a href="/auth/logout">Log out</a><br/>
+    <!-- <div>
+        <a href="/users">All Users</a>
+    </div> -->
+    <div class="post-title">
+        <div class="post-title-div">
+        </div>
+        <h1>ALL POST</h1>
+        <i class="fas fa-angle-double-down"></i>
+    </div>
+    <%- include("../partials/navbar.ejs", {
+        user: user
+    }) %>
     <a href="/posts/new">Post your broken code!</a>
     <% for(let i = 0; i < posts.length; i++) { %>
         <div>
@@ -19,4 +20,17 @@
         </div>
     <% } %>
 </body>
+<script>
+    // const postTitle = document.querySelector(".post-title");
+    // function determineScroll() {
+    //     let windowYPos = window.pageYOffset;
+    //     if(windowYPos > 350) {
+    //         postTitle.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/css/images/homepageImg.jpg')";
+    //     } else {
+    //         postTitle.style.backgroundImage = "url('/css/images/homepageImg.jpg')"
+    //     }
+
+    // }
+    // document.addEventListener("scroll", determineScroll);
+</script>
 </html>

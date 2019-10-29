@@ -1,11 +1,18 @@
 <%- include("partials/header.ejs") %>
-    <div id="start">
-        <button>Start Fixing</button>
-    </div>
+<body>
+    <header id="top-screen">
+        <div class="home-title">
+            <div class="home-title-div">
+                <h1>FIX YOUR CODE</h1>
+                <button>Start Fixing</button>
+            </div>
+        </div>
+    </header>
     <script>
         const button = document.querySelector("button");
         button.addEventListener("click", () => {
-            location.href = "/auth/login"
+            location.href = "/posts"
         })
     </script>
-<%- include("partials/footer.ejs") %>
+</body>
+</html>

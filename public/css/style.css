@@ -2,70 +2,59 @@
     margin: 0;
     padding: 0;
     font-size: 100%;
-    font-family: 'Electrolize', sans-serif;
+    font-family: 'Old Standard TT', serif;
 }
 
 body {
-    height: 100vh;
+    overflow-x: hidden;
+}
+
+.home-title {
     background-image: url("/css/images/homepageImg.jpg");
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center center;
+    height: 100vh;
     margin: 0;
+}
+
+.home-title-div {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.178); */
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
-#top-screen {
-    background-color: rgb(0, 0, 0);
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 10%;
-}
-
-#bottom-screen {
-    background-color: rgb(0, 0, 0);
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 10%;
-}
-
-#title {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#title h1 {
-    color: white;
+.home-title h1 {
+    font-family: 'Old Standard TT', serif;
+    color: rgb(167, 0, 0);
     font-size: 3.5rem;
-    padding: 1rem;
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
 }
 
-#start {
-}
-
-#start button {
+.home-title button {
     font-family: 'Electrolize', sans-serif;
-    height: 5rem;
-    width: 20rem;
-    border: 0;
-    border-radius: 30px;
-    background-color: rgba(0, 0, 0, 0.788);
-    color: white;
-    font-size: 3rem;
+    height: 4rem;
+    width: 15rem;
+    margin: 5rem;
+    border: 0.15rem solid white;
+    background-color: rgba(167, 0, 0, 0.562);
+    color: antiquewhite;
+    font-size: 1.5rem;
     -webkit-transition-duration: 0.3s; /* Safari */
     transition-duration: 0.3s;
 }
 
-#start button:hover {
-    /* background-color: white;
-    color: black; */
-    height: 6rem;
-    width: 21rem;
-    font-size: 3.1rem;
+.home-title button:hover {
+    height: 4rem;
+    width: 16rem;
+    font-size: 2rem;
 }
 
 .auth-div {
@@ -105,24 +94,51 @@ form {
     text-align: center;
 }
 
-.title {
-    z-index: 1;
+.post-title {
     height: 100vh;
-    width: 60rem;
-    background-color: red;
-    color: white;
+    width: 100vw;
+    background-image: url("/css/images/homepageImg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 }
 
+.post-title-div {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: inherit;
+    filter: blur(3.5px);
+}
+
+.post-title h1 {
+    font-family: 'Kurale', serif;
+    font-size: 10rem;
+    color: rgb(255, 246, 246);
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+}
+
+i {
+    position: absolute;
+    bottom: 1rem;
+    z-index: 2;
+    font-size: 5rem;
+    color: white;
+}
+
 .nav {
-    position: fixed;
-    top: 0;
-    border-bottom: 1px solid black;
     width: 100%;
     margin: 0;
-    background-color: white;
+    background-color: antiquewhite;
+    z-index: 1;
 }
 
 .nav-header {
@@ -155,6 +171,8 @@ form {
 .nav-link {
     text-decoration: none;
     margin: 0px 10px;
+    font-weight: 450;
+    color: rgb(173, 0, 0);
 }
 
 .nav-link:hover {
