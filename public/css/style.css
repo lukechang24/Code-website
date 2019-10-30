@@ -56,6 +56,8 @@ body {
 }
 
 #home-title button:hover {
+    border-left: 0;
+    border-right: 0;
     height: 4rem;
     width: 100%;
     font-size: 2.5rem;
