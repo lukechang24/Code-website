@@ -4,7 +4,7 @@
         <a href="/users">All Users</a>
     </div> -->
     <div id="post-title">
-        <div id="post-title-div">
+        <div id="post-title-overlay">
         </div>
         <h1>ALL POST</h1>
         <i id="down-arrow" class="fas fa-angle-double-down"></i>
@@ -18,15 +18,21 @@
         <% } %>
         <% for(let i = 0; i < posts.length; i++) { %>
             <div class="posts">
-                <h3><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></h3>
-                <small><%= posts[i].language %></small>
+                <div class="title">
+                    <a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a>
+                </div>
+                <div class="description">
+                    <small>Posted By <a href="/users/<%= posts[i].creator._id %>"><%= posts[i].creator.displayName %></a></small>
+                    <small><%= posts[i].language %></small>
+                    <small><%= posts[i].comments.length %> comments</small>
+                </div>
             </div>
         <% } %>
     </div>
 </body>
 <script>
     const downArrow = document.querySelector("#down-arrow");
-    const postTitleDiv = document.querySelector("#post-title-div");
+    const postTitleDiv = document.querySelector("#post-title");
     const navBar = document.querySelector(".nav");
     const posts = document.querySelector("#all-posts");
 

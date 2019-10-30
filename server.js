@@ -16,6 +16,12 @@ app.use(session({
     resave: false,
     saveUninitialized: false 
   }))
+app.use((req, res, next) => {
+    if(!req.session.currentUser) {
+        req.session.currentUser = {};
+    }
+    next();
+});
 
 const authsController = require("./controllers/auth")
 const usersController = require("./controllers/users");

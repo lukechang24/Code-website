@@ -4,14 +4,11 @@ const router = express.Router();
 const Post = require("../models/posts")
 const User = require("../models/users")
 const Comment = require("../models/comments")
-// const nl2br = require("locutus/php/strings/nl2br");
 
 router.get("/", async (req, res) => {
     try {
-        if(!req.session.currentUser) {
-            req.session.currentUser = {};
-        }
-        const posts = await Post.find({});
+        const posts = await Post.find({})
+        .populate({path: "creator"});
         res.render("posts/index", {
             user: req.session.currentUser,
             posts
@@ -36,7 +33,6 @@ router.post("/", async (req, res) => {
     try {
         req.body.creator = req.session.currentUser.userID;
         const post = await Post.create(req.body);
-        console.log(post);
         const user = await User.findOne({username: req.session.currentUser.username});
         user.posts.push(post);
         user.save();
@@ -58,13 +54,13 @@ router.post("/:id/comment", async (req, res) => {
             const user = await User.findOne({username: req.session.currentUser.username});
             user.comments.push(comment);
             user.save();
-            console.log(comment)
             // console.log(dateFromObjectId(comment._id.toString()));
             res.redirect(`/posts/${req.params.id}`);
         } else {
             req.session.previousURL = `/posts/${req.params.id}`;
             res.render("auth/login", {
-                message: "You must be logged in to comment"
+                message: "You must be logged in to comment",
+                currentComment: req.body.comment
             });
         }
     } catch(err) {
@@ -74,16 +70,11 @@ router.post("/:id/comment", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        if(!req.session.currentUser) {
-            req.session.currentUser = {};
-        }
         const post = await Post.findOne({_id: req.params.id})
         .populate({path: "creator"});
-        console.log(post);
         const currentUser = await User.findOne({username: req.session.currentUser.username}) || {};
         const comments = await Comment.find({postId: req.params.id})
         .populate({path: "creator"});
-        console.log(currentUser, "current user")
         res.render("posts/show", {
             post,
             currentUser,
@@ -98,7 +89,6 @@ router.delete("/:id/:commentID", async (req, res) => {
     try {
         const comment = await Comment.findByIdAndDelete(req.params.commentID);
         const user = await User.findOneAndUpdate({_id: comment.creator._id}, {$pull: {comments: req.params.commentID}});
-        console.log(user);
         user.save();
         res.redirect(`/posts/${req.params.id}`);
     } catch(err) {
@@ -109,7 +99,6 @@ router.delete("/:id/:commentID", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const post = await Post.findOneAndDelete({_id: req.params.id});
-        console.log(post)
         res.redirect("/posts");
     } catch(err) {
         console.log(err);
