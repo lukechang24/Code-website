@@ -32,7 +32,7 @@ router.post("/login", async (req, res) => {
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
-                    res.redirect("/posts#all-posts");
+                    res.redirect("/posts#nav");
                 }
             } else {
                 res.render("auth/login", {
@@ -78,7 +78,7 @@ router.post("/signup", async (req, res) => {
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
-                    res.redirect("/posts");
+                    res.redirect("/posts#nav");
                 }
             }
         }

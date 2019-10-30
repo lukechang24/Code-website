@@ -17,10 +17,16 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
-        .populate({path: "posts"});
+        const posts = await Post.find({"creator.userID": req.params.id});
+        const relatedPosts = await Post.find({"comments.creator.userID": req.params.id});
+        console.log(relatedPosts[0].comments, "related");
+        console.log(posts, "posts");
+        const user = await User.findById(req.params.id);
+        console.log(user);
         res.render("users/show", {
-            user
+            user,
+            posts,
+            relatedPosts
         })
     } catch(err) {
         console.log(err);

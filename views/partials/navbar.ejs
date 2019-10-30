@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <link href="https://fonts.googleapis.com/css?family=Electrolize&display=swap" rel="stylesheet">
-<div class="nav">
+<div id="nav" class="nav">
     <div class="nav-header">
         <div class="nav-left">
             <a href="/" class="nav-link">HOME</a>
@@ -10,7 +10,7 @@
         </div>
         <div class="nav-right">
             <% if(user.username) { %>
-                <a href="/users/<%= user.userID %>" class="nav-link">MY PROFILE</a>
+                <a href="/users/<%= user.userID %>" class="nav-link"><%= user.displayName.toUpperCase() %></a>
                 <a href="/auth/logout" class="nav-link">LOG OUT</a>
             <% } else { %>
                 <a href="/auth/signup" class="nav-link">SIGN UP</a>

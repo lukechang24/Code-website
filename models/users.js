@@ -4,8 +4,6 @@ const userSchema = new mongoose.Schema({
     displayName: String,
     password: String,
     email: String,
-    posts: [{type: mongoose.Schema.Types.ObjectId, ref: "Post"}],
-    comments: [{type: mongoose.Schema.Types.ObjectId, ref: "Comment"}]
 })
 
 const User = mongoose.model("User", userSchema);

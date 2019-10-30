@@ -19,12 +19,18 @@
         <% for(let i = 0; i < posts.length; i++) { %>
             <div class="posts">
                 <div class="title">
-                    <a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a>
+                    <a href="/posts/<%= posts[i]._id %>">
+                        <% if(posts[i].title.length > 30) { %>
+                            <%= posts[i].title.substring(0, 30) %>...
+                        <% } else { %>
+                            <%= posts[i].title %>
+                        <% } %>
+                    </a>
                 </div>
                 <div class="description">
-                    <small>Posted By <a href="/users/<%= posts[i].creator._id %>"><%= posts[i].creator.displayName %></a></small>
+                    <small>Posted By <a href="/users/<%= posts[i].creator.userID %>"><%= posts[i].creator.displayName %></a></small>
                     <small><%= posts[i].language %></small>
-                    <small><%= posts[i].comments.length %> comments</small>
+                    <small><%= posts[i].comments.length %> comment<%= posts[i].comments.length === 1 ? "" : "s" %></small>
                 </div>
             </div>
         <% } %>
@@ -40,16 +46,15 @@
         scrollTo(0, postTitleDiv.scrollHeight+4);
     })
     document.addEventListener("scroll", () => {
-        const scrollTop = document.documentElement.scrollTop;
+        const scrollTop = window.pageYOffset;
         if(scrollTop > postTitleDiv.scrollHeight) {
-            navBar.style.position = "fixed";
-            navBar.style.top = 0;
-            posts.style.marginTop = `${navBar.offsetHeight}px`;
+            navBar.classList.add("sticky");
+            posts.classList.add("move")
         } else {
-            navBar.style.position = null;
-            navBar.style.top = null;
-            posts.style.marginTop = 0;
+            navBar.classList.remove("sticky");
+            posts.classList.remove("move")
         }
+        console.log(scrollTop);
     })
 </script>
 </html>

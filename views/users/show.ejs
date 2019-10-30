@@ -13,8 +13,19 @@
         <div>
             <h3>Posts</h3>
             <ul>
-                <% for(let i = 0; i < user.posts.length; i++) { %>
-                    <li><a href="/posts/<%= user.posts[i]._id %>"><%= user.posts[i].title %></a></li>
+                <% for(let i = 0; i < posts.length; i++) { %>
+                    <li><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></li>
+                <% } %>
+            </ul>
+            <h3>Activities</h3>
+            <ul>
+                <% for(let i = 0; i < relatedPosts.length; i++) { %>
+                    <a href="/posts/<%= relatedPosts[i]._id %>"><h4><%= relatedPosts[i].title %></h4></a>
+                    <% for(let j = 0; j < relatedPosts[i].comments.length; j++) { %>
+                        <% if(user._id.toString() === relatedPosts[i].comments[j].creator.userID) { %>
+                            <small><%= relatedPosts[i].comments[j].creator.displayName %>: <%= relatedPosts[i].comments[j].comment %></small>
+                        <% } %>
+                    <% } %>
                 <% } %>
             </ul>
         </div>

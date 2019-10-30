@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<%- include("../partials/header") %>
 <body>
     <div>
-        <a href="/posts/#all-posts">Back to all Posts</a>
+        <a href="/posts/#nav">Back to all Posts</a>
         <div>
             <h1><%= post.title %></h1>
-            <small>Posted By: <a href="/users/<%= post.creator._id %>"><%= post.creator.displayName %></a></small>
+            <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small>
         </div>
         <div>
             <p><%= post.description %></p>
@@ -27,7 +20,12 @@
             <button type="submit">Comment</button>
         </form>
         <% for(let i = 0; i < comments.length; i++) { %>
-            <p><a href="/users/<%= comments[i].creator._id %>"><%= comments[i].creator.displayName %></a><br/> <%= comments[i].comment %></p>
+            <p><a href="/users/<%= comments[i].creator.userID %>"><%= comments[i].creator.displayName %></a><br/> <%= comments[i].comment %></p>
+            <form action="/posts/<%= post._id %>/<%= comments[i]._id %>/like" method="POST">
+                <button id="like-button" type="submit">
+                    <i class="far fa-heart"></i>
+                </button>
+            </form>
             <% if(post.creator.username === currentUser.username || currentUser.username === comments[i].creator.username) { %>
                 <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
                     <button type="submit">delete comment</button>
@@ -43,4 +41,16 @@
         <% } %>
     </div>
 </body>
+<script>
+    const hearts = document.querySelectorAll("i");
+    hearts.forEach(heart => {
+        heart.addEventListener("click", (e) => {
+            if(e.target.className === "far fa-heart") {
+                e.target.className = "fas fa-heart";
+            } else {
+                e.target.className = "far fa-heart";
+            }
+        })
+    })
+</script>
 </html>

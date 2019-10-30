@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+const Comment = require('./comments').schema;
 const postSchema = new mongoose.Schema({
-    title: {type: String, required: true},
-    language: {type: String, required: true},
-    description: {type: String, required: true},
-    body: {type: String, required: true},
-    creator: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    comments: [String],
+    title: String,
+    language: String,
+    description: String,
+    body: String,
+    creator: {username: String, displayName: String, userID: String},
+    comments: [Comment],
 })
 
 const Post = mongoose.model("Post", postSchema);

@@ -28,26 +28,27 @@ body {
 
 #home-title-div {
     width: 100vw;
-    height: 10rem;
+    height: 100vh;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.637);
-    margin: 5rem;
+    background: rgba(0, 0, 0, 0.473);
 }
 
 #home-title h1 {
     color: whitesmoke;
-    font-size: 7rem;
+    font-size: 8rem;
     font-weight: 100;
 }
 
 #home-title button {
     font-family: 'Kurale', serif;
     height: 4rem;
-    width: 15rem;
+    width: 100vw;
     border: 0.15rem solid white;
+    border-left: 0;
+    border-right: 0;
     background-color: rgb(167, 0, 0);
     color: white;
     font-size: 2.5rem;
@@ -55,11 +56,7 @@ body {
 }
 
 #home-title button:hover {
-    border-left: 0;
-    border-right: 0;
-    height: 4rem;
-    width: 18rem;
-    font-size: 2.5rem;
+    cursor: pointer;
 }
 
 .auth-div {
@@ -132,8 +129,36 @@ form {
     font-weight: 400;
 }
 
+#down-arrow {
+    position: absolute;
+    bottom: 3rem;
+    z-index: 2;
+    font-size: 5rem;
+    color: white;
+    cursor: pointer;
+    animation: bounce 0.5s infinite alternate-reverse;
+}
+
+@keyframes bounce {
+    from {
+        bottom: 3rem;
+    }
+    to {
+        bottom: 4rem;
+    }
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+}
+
+.move {
+    margin-top: 5rem;
+}
+
 #all-posts {
-    height: calc(100vh - 4.9759rem);
+    min-height: calc(100vh);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,12 +178,13 @@ form {
 
 .title {
     width: 70%;
-    font-size: 5rem;
+    font-size: 3rem;
     margin: 0 1rem;
 }
 .title a {
     text-decoration: none;
     color: white;
+    display: block;
 }
 
 .description {
@@ -169,13 +195,16 @@ form {
     margin: 0 1rem;
 }
 
-#down-arrow {
-    position: absolute;
-    bottom: 3rem;
-    z-index: 2;
-    font-size: 5rem;
-    color: white;
-    cursor: pointer;
+#like-button {
+    background-color: inherit;
+    border: 0;
+    border-radius: 2rem 2rem 3rem 3rem;
+    width: 2.3rem;
+}
+
+.fa-heart {
+    font-size: 2rem;
+    border-radius: 2rem 2rem 3rem 3rem;
 }
 
 .nav {
