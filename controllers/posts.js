@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
         const user = await User.findOne({username: req.session.currentUser.username});
         user.posts.push(post);
         user.save();
-        res.redirect("/posts");
+        res.redirect(`/posts/${post._id}`);
     }catch (err) {
         console.log(err);   
     }

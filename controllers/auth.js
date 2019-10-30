@@ -32,7 +32,7 @@ router.post("/login", async (req, res) => {
                 if(req.session.previousURL) {
                     res.redirect(req.session.previousURL);
                 } else {
-                    res.redirect("/posts");
+                    res.redirect("/posts#all-posts");
                 }
             } else {
                 res.render("auth/login", {
@@ -88,7 +88,7 @@ router.post("/signup", async (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
-        err ? console.log(err) : res.redirect("/")
+        err ? console.log(err) : res.redirect("/posts");
     })
 })
 

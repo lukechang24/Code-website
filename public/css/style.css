@@ -2,59 +2,63 @@
     margin: 0;
     padding: 0;
     font-size: 100%;
-    font-family: 'Old Standard TT', serif;
+    font-family: 'Kurale', serif;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-.home-title {
+#home-title, #login-page, #signup-page {
     background-image: url("/css/images/homepageImg.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    height: 100vh;
-    margin: 0;
-}
-
-.home-title-div {
-    position: absolute;
-    width: 100vw;
-    height: 100%;
-    /* background: rgba(0, 0, 0, 0.178); */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.home-title h1 {
-    font-family: 'Old Standard TT', serif;
-    color: rgb(167, 0, 0);
-    font-size: 3.5rem;
-    padding: 0;
-    margin: 0;
+#home-title-div {
+    width: 100vw;
+    height: 10rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.637);
+    margin: 5rem;
+}
+
+#home-title h1 {
+    color: white;
+    font-size: 7rem;
     font-weight: 100;
 }
 
-.home-title button {
-    font-family: 'Electrolize', sans-serif;
+#home-title button {
+    font-family: 'Kurale', serif;
     height: 4rem;
     width: 15rem;
-    margin: 5rem;
     border: 0.15rem solid white;
-    background-color: rgba(167, 0, 0, 0.562);
-    color: antiquewhite;
-    font-size: 1.5rem;
-    -webkit-transition-duration: 0.3s; /* Safari */
-    transition-duration: 0.3s;
+    background-color: rgb(167, 0, 0);
+    color: white;
+    font-size: 2.5rem;
+    transition-duration: 0.25s;
 }
 
-.home-title button:hover {
+#home-title button:hover {
     height: 4rem;
-    width: 16rem;
-    font-size: 2rem;
+    width: 100%;
+    font-size: 2.5rem;
 }
 
 .auth-div {
@@ -94,9 +98,10 @@ form {
     text-align: center;
 }
 
-.post-title {
+#post-title {
     height: 100vh;
     width: 100vw;
+    margin: 0;
     background-image: url("/css/images/homepageImg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -107,15 +112,15 @@ form {
     align-items: center;
 }
 
-.post-title-div {
+#post-title-div {
     position: absolute;
     width: 100vw;
     height: 100vh;
     background: inherit;
-    filter: blur(3.5px);
+    filter: blur(3px);
 }
 
-.post-title h1 {
+#post-title h1 {
     font-family: 'Kurale', serif;
     font-size: 10rem;
     color: rgb(255, 246, 246);
@@ -126,15 +131,34 @@ form {
     font-weight: 400;
 }
 
-i {
+#all-posts {
+    height: calc(100vh - 4.9759rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#posts, #post-empty {
+    margin-top: 1rem;
+}
+
+.posts {
+    width: calc(100vw - 30%);
+    background-color: red;
+    margin: 1rem;
+}
+
+#down-arrow {
     position: absolute;
-    bottom: 1rem;
+    bottom: 3rem;
     z-index: 2;
     font-size: 5rem;
     color: white;
+    cursor: pointer;
 }
 
 .nav {
+    height: 5rem;
     width: 100%;
     margin: 0;
     background-color: antiquewhite;
@@ -158,10 +182,11 @@ i {
 .nav-center {
     width: 33.333%;
     text-align: center;
+    padding: 15px;
 }
 
 .nav-right {
-    width: 60%;
+    width: 33.333%;
     text-align: right;
     display: flex;
     justify-content: flex-end;

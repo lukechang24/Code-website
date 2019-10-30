@@ -1,13 +1,9 @@
 <%- include("partials/header.ejs") %>
-<body>
-    <header id="top-screen">
-        <div class="home-title">
-            <div class="home-title-div">
-                <h1>FIX YOUR CODE</h1>
-                <button>Start Fixing</button>
-            </div>
-        </div>
-    </header>
+<body id="home-title">
+    <div id="home-title-div">
+        <h1>FIX YOUR CODE</h1>
+    </div>
+    <button>Start Fixing</button>
     <script>
         const button = document.querySelector("button");
         button.addEventListener("click", () => {

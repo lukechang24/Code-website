@@ -3,34 +3,47 @@
     <!-- <div>
         <a href="/users">All Users</a>
     </div> -->
-    <div class="post-title">
-        <div class="post-title-div">
+    <div id="post-title">
+        <div id="post-title-div">
         </div>
         <h1>ALL POST</h1>
-        <i class="fas fa-angle-double-down"></i>
+        <i id="down-arrow" class="fas fa-angle-double-down"></i>
     </div>
     <%- include("../partials/navbar.ejs", {
         user: user
     }) %>
-    <a href="/posts/new">Post your broken code!</a>
-    <% for(let i = 0; i < posts.length; i++) { %>
-        <div>
-            <h3><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></h3>
-            <small><%= posts[i].language %></small>
-        </div>
-    <% } %>
+    <div id="all-posts">
+        <% if(posts.length === 0) { %>
+            <h1 id="post-empty">There's nothing here.</h1>
+        <% } %>
+        <% for(let i = 0; i < posts.length; i++) { %>
+            <div class="posts">
+                <h3><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></h3>
+                <small><%= posts[i].language %></small>
+            </div>
+        <% } %>
+    </div>
 </body>
 <script>
-    // const postTitle = document.querySelector(".post-title");
-    // function determineScroll() {
-    //     let windowYPos = window.pageYOffset;
-    //     if(windowYPos > 350) {
-    //         postTitle.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/css/images/homepageImg.jpg')";
-    //     } else {
-    //         postTitle.style.backgroundImage = "url('/css/images/homepageImg.jpg')"
-    //     }
+    const downArrow = document.querySelector("#down-arrow");
+    const postTitleDiv = document.querySelector("#post-title-div");
+    const navBar = document.querySelector(".nav");
+    const posts = document.querySelector("#all-posts");
 
-    // }
-    // document.addEventListener("scroll", determineScroll);
+    downArrow.addEventListener("click", () => {
+        scrollTo(0, postTitleDiv.scrollHeight+4);
+    })
+    document.addEventListener("scroll", () => {
+        const scrollTop = document.documentElement.scrollTop;
+        if(scrollTop > postTitleDiv.scrollHeight) {
+            navBar.style.position = "fixed";
+            navBar.style.top = 0;
+            posts.style.marginTop = `${navBar.offsetHeight}px`;
+        } else {
+            navBar.style.position = null;
+            navBar.style.top = null;
+            posts.style.marginTop = 0;
+        }
+    })
 </script>
 </html>
