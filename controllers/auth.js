@@ -55,30 +55,31 @@ router.post("/signup", async (req, res) => {
             res.render("auth/signup", {
                 message: "Please fill out the entire form"
             })
-        }
-        const userExists = await User.findOne({username: req.body.username});
-        if(userExists) {
-            res.render("auth/signup", {
-                message: "This username already exists. Please choose another one."
-            });
         } else {
-            const password = req.body.password;
-            const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-            const userDb = {};
-            userDb.username = req.body.username;
-            userDb.password = passwordHash;
-            userDb.displayName = req.body.displayName;
-            const createdUser = await User.create(userDb);
-            const currentUser = {
-                username: createdUser.username,
-                userID: createdUser._id,
-                displayName: createdUser.displayName
-            }
-            req.session.currentUser = currentUser;
-            if(req.session.previousURL) {
-                res.redirect(req.session.previousURL);
+            const userExists = await User.findOne({username: req.body.username});
+            if(userExists) {
+                res.render("auth/signup", {
+                    message: "This username already exists. Please choose another one."
+                });
             } else {
-                res.redirect("/posts");
+                const password = req.body.password;
+                const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+                const userDb = {};
+                userDb.username = req.body.username;
+                userDb.password = passwordHash;
+                userDb.displayName = req.body.displayName;
+                const createdUser = await User.create(userDb);
+                const currentUser = {
+                    username: createdUser.username,
+                    userID: createdUser._id,
+                    displayName: createdUser.displayName
+                }
+                req.session.currentUser = currentUser;
+                if(req.session.previousURL) {
+                    res.redirect(req.session.previousURL);
+                } else {
+                    res.redirect("/posts");
+                }
             }
         }
     } catch(err) {
