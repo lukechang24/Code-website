@@ -3,8 +3,8 @@
     <!-- <div>
         <a href="/users">All Users</a>
     </div> -->
-    <div id="post-title">
-        <div id="post-title-overlay">
+    <div id="post-page-title">
+        <div id="title-cover">
         </div>
         <h1>ALL POST</h1>
         <i id="down-arrow" class="fas fa-angle-double-down"></i>
@@ -20,8 +20,8 @@
             <div class="posts">
                 <div class="title">
                     <a href="/posts/<%= posts[i]._id %>">
-                        <% if(posts[i].title.length > 30) { %>
-                            <%= posts[i].title.substring(0, 30) %>...
+                        <% if(posts[i].title.length > 45) { %>
+                            <%= posts[i].title.substring(0, 45) %>...
                         <% } else { %>
                             <%= posts[i].title %>
                         <% } %>
@@ -38,7 +38,7 @@
 </body>
 <script>
     const downArrow = document.querySelector("#down-arrow");
-    const postTitleDiv = document.querySelector("#post-title");
+    const postTitleDiv = document.querySelector("#post-page-title");
     const navBar = document.querySelector(".nav");
     const posts = document.querySelector("#all-posts");
 

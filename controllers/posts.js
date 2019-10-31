@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
         const posts = await Post.find({});
             res.render("posts/index", {
             user: req.session.currentUser,
-            posts,
+            posts: posts.reverse(),
         });
     } catch(err) {
         console.log(err);
@@ -76,7 +76,14 @@ router.post("/:id/comment", async (req, res) => {
 
 router.post("/:id/:commentID/like", async (req, res) => {
     try {
-        const comment = await Comment.findByIdAndUpdate(req.params.commentID, {likedBy: req.session.currentUser.userID});
+        
+        const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
+        if(!likeComment) {
+            const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
+            console.log(dislikeComment)
+        } else {
+            console.log(likeComment);
+        }
         res.redirect(`/posts/${req.params.id}`);
     } catch(err) {
         console.log(err);
@@ -101,8 +108,9 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id/:commentID", async (req, res) => {
     try {
-        const comment = await Comment.findByIdAndDelete(req.params.commentID);
+        const comment = await Comment.findById(req.params.commentID);
         const post = await Post.findByIdAndUpdate(req.params.id, {$pull: {comments: comment}});
+        await comment.delete();
         //
         // const user = await User.findOneAndUpdate({_id: comment.creator._id}, {$pull: {comments: req.params.commentID}});
         res.redirect(`/posts/${req.params.id}`);
