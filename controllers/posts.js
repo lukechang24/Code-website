@@ -8,7 +8,7 @@ const Comment = require("../models/comments")
 router.get("/", async (req, res) => {
     try {
         const posts = await Post.find({});
-            res.render("posts/index", {
+        res.render("posts/index", {
             user: req.session.currentUser,
             posts: posts.reverse(),
         });
@@ -28,6 +28,23 @@ router.get("/new", (req, res) => {
             message: "You must be logged in to create a post"
         });
     }
+})
+
+router.get("/:id/edit", async (req, res) => {
+    const post = await Post.findOne({_id: req.params.id});
+    const currentUser = await User.findOne({username: req.session.currentUser.username}) || {};
+    const comments = await Comment.find({postID: req.params.id});
+    console.log(post.comments.length)
+    res.render("posts/edit", {
+        post,
+        currentUser,
+        comments
+    })
+})
+
+router.put("/:id", async (req, res) => {
+    const post = await Post.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect(`/posts/${req.params.id}`);
 })
 
 router.post("/", async (req, res) => {
@@ -76,15 +93,21 @@ router.post("/:id/comment", async (req, res) => {
 
 router.post("/:id/:commentID/like", async (req, res) => {
     try {
-        
-        const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
-        if(!likeComment) {
-            const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
-            console.log(dislikeComment)
+        if(req.session.currentUser.username) {
+            const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
+            if(!likeComment) {
+                const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
+                console.log(dislikeComment)
+            } else {
+                console.log(likeComment);
+            }
+            res.redirect(`/posts/${req.params.id}`);
         } else {
-            console.log(likeComment);
+            req.session.previousURL = `/posts/${req.params.id}`;
+            res.render("auth/login", {
+                message: "You must be logged in to like comments",
+            });
         }
-        res.redirect(`/posts/${req.params.id}`);
     } catch(err) {
         console.log(err);
     }
@@ -99,7 +122,7 @@ router.get("/:id", async (req, res) => {
         res.render("posts/show", {
             post,
             currentUser,
-            comments
+            comments,
         })
     } catch(err) {
         console.log(err)

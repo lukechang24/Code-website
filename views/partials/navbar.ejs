@@ -6,7 +6,11 @@
             <a href="/" class="nav-link">HOME</a>
         </div>
         <div class="nav-center">
-            <a class="nav-link" href="/posts/new">POST YOUR BROKEN CODE</a>
+            <% if(whichPage === "post-index-page") { %>
+                <a class="nav-link" href="/posts/new">POST YOUR BROKEN CODE</a>
+            <% } else if(whichPage === "post-show-page") { %>
+                <a class="nav-link" href="/posts">ALL POSTS</a>
+            <% } %>
         </div>
         <div class="nav-right">
             <% if(user.username) { %>

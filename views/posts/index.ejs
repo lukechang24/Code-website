@@ -10,7 +10,8 @@
         <i id="down-arrow" class="fas fa-angle-double-down"></i>
     </div>
     <%- include("../partials/navbar.ejs", {
-        user: user
+        user: user,
+        whichPage: "post-index-page"
     }) %>
     <div id="all-posts">
         <% if(posts.length === 0) { %>
