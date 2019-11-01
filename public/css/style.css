@@ -427,6 +427,11 @@ button {
     background-color: rgb(47, 96, 255)
 }
 
+#post-new-page small {
+    margin-top: 2rem;
+    color: red;
+}
+
 #edit-title {
     width: 85%;
     border: 0;
