@@ -96,7 +96,7 @@ router.post("/:id/:commentID/like", async (req, res) => {
             }
             res.redirect(`/posts/${req.params.id}`);
         } else {
-            req.session.previousURL = `/posts/${req.params.id}`;
+            req.session.previousURL = req.headers.referer;
             res.render("auth/login", {
                 message: "You must be logged in to like comments",
             });
