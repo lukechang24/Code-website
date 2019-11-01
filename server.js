@@ -31,7 +31,7 @@ app.use("/users", usersController);
 app.use("/posts", postsController);
 
 app.get("/", (req, res) => {
-    res.render("homepage")
+    res.redirect("/posts");
 })
 
 app.listen(PORT, () => {

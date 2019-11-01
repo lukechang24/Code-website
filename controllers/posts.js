@@ -115,16 +115,18 @@ router.get("/:id", async (req, res) => {
         sortedComments = sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length).filter(comment => {
             return comment.likedBy.length > 2;
         })
-        console.log(sortedComments)
+        console.log(sortedComments, "sorted")
         // sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length);
         const restOfComments = comments.filter(comment => {
             return !sortedComments.slice(0, 3).includes(comment) || comment.likedBy.length < 3;
         }).reverse();
         comments = sortedComments.slice(0, 3).concat(restOfComments);
+        console.log(comments);
         res.render("posts/show", {
             post,
             currentUser,
             comments,
+            sortedComments: sortedComments.splice(0, 3),
             session: req.session
         })
     } catch(err) {
@@ -134,11 +136,13 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id/:commentID", async (req, res) => {
     try {
-        const comment = await Comment.findById(req.params.commentID);
-        const post = await Post.findByIdAndUpdate(req.params.id, {$pull: {comments: comment}});
-        await comment.delete();
-        //
-        // const user = await User.findOneAndUpdate({_id: comment.creator._id}, {$pull: {comments: req.params.commentID}});
+        console.log("HEY")
+        const deletedComment = await Comment.findByIdAndRemove(req.params.commentID);
+        const post = await Post.findById(req.params.id);
+        post.comments = post.comments.filter(comment => {
+            return comment._id.toString() !== deletedComment._id.toString();
+        })
+        post.save();
         res.redirect(`/posts/${req.params.id}`);
     } catch(err) {
         console.log(err);
