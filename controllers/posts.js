@@ -34,7 +34,6 @@ router.get("/:id/edit", async (req, res) => {
     const post = await Post.findOne({_id: req.params.id});
     const currentUser = await User.findOne({username: req.session.currentUser.username}) || {};
     const comments = await Comment.find({postID: req.params.id});
-    console.log(post.comments.length)
     res.render("posts/edit", {
         post,
         currentUser,
@@ -92,9 +91,6 @@ router.post("/:id/:commentID/like", async (req, res) => {
             const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
             if(!likeComment) {
                 const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
-                console.log(dislikeComment)
-            } else {
-                console.log(likeComment);
             }
             res.redirect(`/posts/${req.params.id}`);
         } else {

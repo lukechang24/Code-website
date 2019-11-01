@@ -11,6 +11,7 @@
         whichPage: "post-index-page"
     }) %>
     <div id="all-posts">
+        <h1>ALL POSTS</h1>
         <% if(posts.length === 0) { %>
             <h1 id="post-empty">There's nothing here.</h1>
         <% } %>
@@ -18,8 +19,8 @@
             <div class="posts">
                 <div class="title">
                     <a href="/posts/<%= posts[i]._id %>">
-                        <% if(posts[i].title.length > 45) { %>
-                            <%= posts[i].title.substring(0, 45) %>...
+                        <% if(posts[i].title.length > 35) { %>
+                            <%= posts[i].title.substring(0, 35) %>...
                         <% } else { %>
                             <%= posts[i].title %>
                         <% } %>

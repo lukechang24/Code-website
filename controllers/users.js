@@ -19,9 +19,7 @@ router.get("/:id", async (req, res) => {
     try {
         const posts = await Post.find({"creator.userID": req.params.id});
         const relatedPosts = await Post.find({"comments.creator.userID": req.params.id});
-        console.log(posts, "posts");
         const user = await User.findById(req.params.id);
-        console.log(user);
         res.render("users/show", {
             user,
             posts,

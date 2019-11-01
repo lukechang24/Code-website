@@ -12,14 +12,15 @@
                         <h1><%= post.title %></h1>
                     <% if(post.creator.username === currentUser.username) { %>
                         <form action="/posts/<%= post._id %>/edit">
-                            <button type="submit">Edit Post</button>
+                            <button id="edit-button" type="submit">Edit Post</button>
                         </form>
                         <form action="/posts/<%= post._id %>/?_method=DELETE" method="POST">
-                            <button type="submit">Delete Post</button>
+                            <button id="delete-button" type="submit">Delete Post</button>
                         </form>
                     <% } %>
                     </div>
-                    <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small>
+                    <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small><br>
+                    <small id="language"><%= post.language %></small>
                 </div>
                 <div id="post-body">
                     <p><%= post.description %></p>
@@ -31,6 +32,7 @@
                 <div id="comment-input">
                     <form action="/posts/<%= post._id %>/comment" method="POST">
                         <textarea id="comment-body" name="comment" placeholder="Add a comment"></textarea>
+                        <button id="comment-button" type="submit">COMMENT</button>
                     </form>
                 </div>
                 <% if(comments.length === 0) { %>
@@ -53,7 +55,7 @@
                             </form>
                             <% if(post.creator.username === currentUser.username || currentUser.username === comments[i].creator.username) { %>
                                 <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
-                                    <button id="delete-button" type="submit">DELETE</button>
+                                    <button id="delete-comment" type="submit">DELETE</button>
                                 </form>
                             <% } %>
                         </div>
@@ -65,12 +67,7 @@
 </body>
 <script>
     const login = document.querySelector(".nav-right a:nth-child(2)");
-    const session = <%- JSON.stringify(session) %>;
-    login.addEventListener("click", (req, res) => {
-        session.previousURL = "/posts/<%= post._id %>";
-    })
     const commentBody = document.querySelector("#comment-body");
-    console.log(commentBody)
     commentBody.addEventListener("keypress", (e) => {
         if(e.which === 13 && !e.shiftKey){
             document.querySelector("#comment-input form").submit();

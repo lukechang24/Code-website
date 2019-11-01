@@ -1,23 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<%- include("../partials/header") %>
 <body>
-    <%= message %>
-    <form action="/posts" method="POST">
-        <input type="text" name="title" placeholder="Title" maxlength="50">
-        <select name="language">
-            <option value="Javascript">Javascript</option>
-            <option value="CSS">CSS</option>
-            <option value="HTML">HTML</option>
-        </select>
-        <input type="text" name="description" placeholder="Describe your problem">
-        <textarea name="body" placeholder="Paste your code here"></textarea>
-        <button type="submit">Post</button>
-    </form>
+    <div id="post-new-page">
+        <h1>Describe Your Code</h1>
+        <div id="container">
+            <form action="/posts" method="POST">
+                <div id="post-container">
+                    <div id="post-header">
+                        <div id="creator-info">
+                            <input id="edit-title" name="title" placeholder="Title" maxlength="60" autocomplete="off"> 
+                        </div>
+                        <select id="language-select" name="language">
+                            <option value="Javascript">Javascript</option>
+                            <option value="CSS">CSS</option>
+                            <option value="HTML">HTML</option>
+                        </select>
+                    </div>
+                    <div id="new-post-body">
+                        <input id="new-description" name="description" type="text" placeholder="Describe your problem" autocomplete="off"></input>
+                        <textarea id="new-body" name="body" placeholder="Paste your code"></textarea>
+                    </div>
+                </div>
+                <button id="new-button" type="submit">Create Post</button>
+            </form>
+        </div>
+    </div>
 </body>
+<script>
+    const commentBody = document.querySelector("#edit-body");
+    console.log(commentBody)
+    commentBody.addEventListener("keypress", (e) => {
+        if(e.which === 13 && !e.shiftKey){
+            e.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
+            document.querySelector("#post-edit-page form").submit();
+            e.preventDefault();
+        }
+    })
+</script>
 </html>

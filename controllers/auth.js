@@ -7,7 +7,7 @@ const session = require("express-session");
 const User = require("../models/users")
 
 router.get("/login", (req, res) => {
-    if(!req.headers.referer.indexOf("signup")) {
+    if(req.headers.referer.indexOf("signup") === -1) {
         req.session.previousURL = req.headers.referer;
     }
     res.render("auth/login", {
@@ -16,7 +16,7 @@ router.get("/login", (req, res) => {
 })
 
 router.get("/signup", (req, res) => {
-    if(!req.headers.referer.indexOf("login")) {
+    if(req.headers.referer.indexOf("login") === -1) {
         req.session.previousURL = req.headers.referer;
     }
     res.render("auth/signup", {
@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
                 }
                 req.session.currentUser = currentUser;
                 if(req.session.previousURL) {
-                    res.redirect(`${req.session.previousURL}${req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") ? "" : "#all-posts"}`);
+                    res.redirect(`${req.session.previousURL}${(req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") > 0) || req.session.previousURL.indexOf("/new") > 0 ? "" : "#all-posts"}`);
                 } else {
                     res.redirect("/posts#all-posts");
                 }
@@ -82,7 +82,7 @@ router.post("/signup", async (req, res) => {
                 }
                 req.session.currentUser = currentUser;
                 if(req.session.previousURL) {
-                    res.redirect(`${req.session.previousURL}${req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") ? "" : "#all-posts"}`);
+                    res.redirect(`${req.session.previousURL}${(req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") > 0) || req.session.previousURL.indexOf("new") > 0 ? "" : "#all-posts"}`);
                 } else {
                     res.redirect("/posts#all-posts");
                 }
@@ -95,7 +95,7 @@ router.post("/signup", async (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
-        err ? console.log(err) : res.redirect(`/posts`);
+        err ? console.log(err) : res.redirect("/posts");
     })
 })
 

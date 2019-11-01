@@ -154,11 +154,6 @@ button {
     }
 }
 
-.sticky {
-    position: fixed;
-    top: 0;
-}
-
 .move {
     margin-top: 5rem;
 }
@@ -171,6 +166,11 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#all-posts h1:nth-child(1) {
+    font-size: 5rem;
+    margin-top: 5rem;
 }
 
 #posts, #post-empty {
@@ -222,7 +222,7 @@ button {
     width: 25%;
 }
 
-#post-show-page, #post-edit-page {
+#post-show-page, #post-edit-page, #post-new-page, #user-show-page {
     min-height: 100vh;
     width: 100vw;
     display: flex;
@@ -240,7 +240,7 @@ button {
 }
 
 #container {
-    min-height: 40rem;
+    min-height:45rem;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
     margin: 7rem 0rem 2rem 0;
@@ -265,9 +265,14 @@ button {
 
 #creator-info h1 {
     width: 80%;
+    font-size: 1.5rem;
 }
 
-#post-body, #edit-post-body {
+#language {
+    font-weight: bold;
+}
+
+#post-body, #new-post-body, #edit-post-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -282,6 +287,7 @@ button {
     border: 0.05rem solid black;
     padding: 1rem;
     background-color: whitesmoke;
+    min-height: 9rem;
 }
 
 #comments-container {
@@ -328,6 +334,21 @@ button {
     font-size: 1.34rem;
 }
 
+#comment-button {
+    border: 1px solid black;
+    color: white;
+    background-color: rgb(39, 78, 253);
+    border-radius: 0.3rem;
+    height: 2.5rem;
+    width: 6.5rem;
+    margin-top: 0.5rem;
+}
+
+#delete-comment {
+    height: 1rem;
+    margin: 0 0.5rem;
+}
+
 #like-form {
     display: flex;
 }
@@ -352,28 +373,163 @@ button {
     padding: 0;
 }
 
-#delete-button {
-    color: red;
-    margin-right: 0.5rem;
-}
-
-#edit-title {
-    width: 85%;
-}
-
-#edit-post-body {
+#post-new-page {
     display: flex;
     flex-direction: column;
 }
 
-#edit-post-body textarea {
+#post-new-page #container {
+    margin-top: 0rem;
+}
+
+#post-new-page form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#post-new-page h1:nth-child(1), #user-show-page h1:nth-child(1) {
+    font-size: 4.6rem;
+}
+
+#post-new-page #edit-title {
+    font-size: 2rem;
+    width: 100%;
+}
+
+#language-select, #new-description, #new-body, #edit-description, #edit-body {
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+#new-button {
+    border: 0.1rem solid black;
+    width: 7rem;
+    height: 3rem;
+    border-radius: 1rem;
+    color: white;
+    background-color: rgb(47, 96, 255)
+}
+
+#edit-title {
+    width: 85%;
+    border: 0;
+    border-bottom: 0.05rem solid black;
+    font-size: 2rem;
+}
+
+
+#new-post-body, #edit-post-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#new-body, #edit-post-body textarea {
     height: 10rem;
     resize: none;
 }
 
-#post-edit-page #comment-input textarea, #post-edit-page #delete-button, #post-edit-page #like-button {
+#edit-button:hover, #delete-button:hover, #delete-comment:hover {
+    color: red;
+}
+
+
+#post-edit-page #comment-input textarea, #post-edit-page #delete-button, #post-edit-page #like-button, #post-edit-page #comment-input button {
     cursor: not-allowed;
 }
+
+#user-show-page #container{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 45rem;
+    width: 50rem;
+}
+
+#options {
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#options p {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.25s;
+}
+
+#options p:hover {
+    background-color: rgba(0, 0, 0, 0.151);
+}
+
+#user-posts, #user-activities {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 80%;
+    margin-top: 2rem;
+}
+
+#user-posts h3, #user-activities h3 {
+    margin: 1rem;
+}
+
+#user-posts li, #user-activities li {
+    border: 0.05rem solid black;
+    margin: 1rem 0;
+    list-style: none;
+    background-color: rgb(252, 245, 245);
+}
+
+#user-posts li {
+    display: flex;
+}
+
+#user-posts a {
+    font-size: 1.5rem;
+    width: 60%;
+    text-align: left;
+    padding: 0 0.5rem;
+    text-decoration: none;
+}
+
+#user-posts #description {
+    display: flex;
+    align-items: center;
+    width: 40%;
+}
+
+#user-posts small:nth-child(1) {
+    font-size: 1.3rem;
+    width: 50%;
+}
+
+#user-posts small:nth-child(2) {
+    font-size: 1.3rem;
+    width: 50%;
+    padding-right: 0.5rem;
+}
+
+#user-activities h4 {
+    display: inline-block;
+    margin: 1rem;
+}
+
+#display-name {
+    font-weight: bold;
+}
+
+#user-activities ul small {
+    display: block;
+    text-align: left;
+    margin: 0 1rem 1rem 1rem;
+    word-wrap: break-word;
+}
+
 
 .nav {
     height: 5rem;

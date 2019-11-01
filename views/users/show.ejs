@@ -1,33 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<%- include("../partials/header") %>
 <body>
-    <div>
-        <a href="/users">Back to all Users</a>
+    <div id="user-show-page">
         <h1><%= user.displayName %></h1>
-        <div>
-            <h3>Posts</h3>
-            <ul>
-                <% for(let i = 0; i < posts.length; i++) { %>
-                    <li><a href="/posts/<%= posts[i]._id %>"><%= posts[i].title %></a></li>
-                <% } %>
-            </ul>
-            <h3>Activities</h3>
-            <ul>
-                <% for(let i = 0; i < relatedPosts.length; i++) { %>
-                    <a href="/posts/<%= relatedPosts[i]._id %>"><h4><%= relatedPosts[i].title %></h4></a>
-                    <% for(let j = 0; j < relatedPosts[i].comments.length; j++) { %>
-                        <% if(user._id.toString() === relatedPosts[i].comments[j].creator.userID) { %>
-                            <small><%= relatedPosts[i].comments[j].creator.displayName %>: <%= relatedPosts[i].comments[j].comment %></small>
-                        <% } %>
+        <div id="container">
+            <div id="options">
+                <p>Posts</p>
+                <p>Activities</p>
+            </div>
+            <div id="user-posts">
+                <h3>Posts</h3>
+                <ul>
+                    <% for(let i = 0; i < posts.length; i++) { %>
+                        <li>
+                            <a href="/posts/<%= posts[i]._id %>">
+                                <% if(posts[i].title.length > 30) { %>
+                                    <%= posts[i].title.substring(0, 30) %>...
+                                <% } else { %>
+                                    <%= posts[i].title %>
+                                <% } %>
+                            </a>
+                            <div id="description">
+                                <small><%= posts[i].language %></small>
+                                <small><%= posts[i].comments.length %> comment<%= posts[i].comments.length === 1 ? "" : "s" %></small>
+                            </div>
+                        </li>
                     <% } %>
-                <% } %>
-            </ul>
+                </ul>
+            </div>
+            <div id="user-activities" style="display: none">
+                <h3>Activities</h3>
+                <ul>
+                    <% for(let i = 0; i < relatedPosts.length; i++) { %>
+                        <li>
+                            <a href="/posts/<%= relatedPosts[i]._id %>"><h4><%= relatedPosts[i].title %></h4></a>
+                        <% for(let j = 0; j < relatedPosts[i].comments.length; j++) { %>
+                            <% if(user._id.toString() === relatedPosts[i].comments[j].creator.userID) { %>
+                                <small><span id="display-name"><%= relatedPosts[i].comments[j].creator.displayName %></span>: <%= relatedPosts[i].comments[j].comment %></small>
+                            <% } %>
+                        <% } %>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
         </div>
+    </div>
 </body>
+<script>
+    const userPosts = document.querySelector("#user-posts")
+    const userPostsButton = document.querySelector("#options p:nth-child(1)");
+    const userActivities = document.querySelector("#user-activities");
+    const userActivitiesButton = document.querySelector("#options p:nth-child(2)");
+    userPostsButton.addEventListener("click", () => {
+        userActivities.style.display = "none";
+        userPosts.style.display = "flex";
+    })
+    userActivitiesButton.addEventListener("click", () => {
+        userPosts.style.display = "none";
+        userActivities.style.display = "flex";
+    })
+</script>
 </html>

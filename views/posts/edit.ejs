@@ -1,6 +1,6 @@
 <%- include("../partials/header") %>
 <body>
-    %- include("../partials/navbar.ejs", {
+    <%- include("../partials/navbar.ejs", {
         user: currentUser,
         whichPage: "post-edit-page"
     }) %>
@@ -10,10 +10,14 @@
                 <div id="post-container">
                     <div id="post-header">
                         <div id="creator-info">
-                            <input id="edit-title" name="title" value="<%= post.title %>"> 
-                            <button type="submit">Submit Changes</button>
+                            <input id="edit-title" name="title" value="<%= post.title %>" maxlength="60"> 
+                            <button id="edit-button" type="submit">Submit Changes</button>
                         </div>
-                        <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small>
+                        <select id="language-select" name="language">
+                            <option value="Javascript">Javascript</option>
+                            <option value="CSS">CSS</option>
+                            <option value="HTML">HTML</option>
+                        </select>
                     </div>
                     <div id="edit-post-body">
                         <input id="edit-description" name="description" type="text" value="<%= post.description %>"></input>
@@ -26,8 +30,12 @@
                 <div id="comment-input">
                     <form action="/posts/<%= post._id %>/comment" method="POST">
                         <textarea id="comment-body" name="comment" disabled="disabled"></textarea>
+                        <button id="comment-button" type="submit" disabled="disabled">COMMENT</button>
                     </form>
                 </div>
+                <% if(comments.length === 0) { %>
+                    <p>There are no comments</p>
+                <% } %>
                 <% for(let i = 0; i < comments.length; i++) { %>
                     <div class="comments-div <%= i < 3 ? 'top-comment' : '' %>">
                         <p><a href="/users/<%= comments[i].creator.userID %>"><%= comments[i].creator.displayName %></a></p>
