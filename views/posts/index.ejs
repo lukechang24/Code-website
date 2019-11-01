@@ -19,8 +19,8 @@
             <div class="posts">
                 <div class="title">
                     <a href="/posts/<%= posts[i]._id %>">
-                        <% if(posts[i].title.length > 35) { %>
-                            <%= posts[i].title.substring(0, 35) %>...
+                        <% if(posts[i].title.length > 32) { %>
+                            <%= posts[i].title.substring(0, 32) %>...
                         <% } else { %>
                             <%= posts[i].title %>
                         <% } %>
@@ -44,22 +44,10 @@
 <script>
     const downArrow = document.querySelector("#down-arrow");
     const postTitleDiv = document.querySelector("#post-page-title");
-    // const navBar = document.querySelector(".nav");
-    // const posts = document.querySelector("#all-posts");
+    const navBar = document.querySelector(".nav");
 
     downArrow.addEventListener("click", () => {
-        scrollTo(0, postTitleDiv.scrollHeight+4);
+        scrollTo(0, postTitleDiv.scrollHeight-navBar.offsetHeight);
     })
-    // document.addEventListener("scroll", () => {
-    //     const scrollTop = window.pageYOffset;
-    //     if(scrollTop > postTitleDiv.scrollHeight) {
-    //         navBar.classList.add("sticky");
-    //         posts.classList.add("move")
-    //     } else {
-    //         navBar.classList.remove("sticky");
-    //         posts.classList.remove("move")
-    //     }
-    //     console.log(scrollTop);
-    // })
 </script>
 </html>

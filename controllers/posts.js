@@ -70,7 +70,9 @@ router.post("/:id/comment", async (req, res) => {
         if(!req.body.comment) {
             res.redirect(`/posts/${req.params.id}`);
         } else if(req.session.currentUser.username) {
-            const comment = await Comment.create({postID: req.params.id, creator: {displayName: req.session.currentUser.displayName, userID: req.session.currentUser.userID, username: req.session.currentUser.username}, comment: req.body.comment})
+            const comment = await Comment.create({postID: req.params.id, creator: {displayName: req.session.currentUser.displayName, userID: req.session.currentUser.userID, username: req.session.currentUser.username}, comment: req.body.comment});
+            comment.likedBy.push(req.session.currentUser.userID);
+            comment.save();
             const post = await Post.findOneAndUpdate({_id: comment.postID}, {$push: {comments: comment}});
             res.redirect(`/posts/${req.params.id}`);
         } else {

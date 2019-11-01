@@ -10,6 +10,7 @@
             <div id="user-posts">
                 <h3>Posts</h3>
                 <ul>
+                    <p><%= posts.length === 0 ? "This user has not posted yet" : "" %></p>
                     <% for(let i = 0; i < posts.length; i++) { %>
                         <li>
                             <a href="/posts/<%= posts[i]._id %>">
@@ -27,9 +28,10 @@
                     <% } %>
                 </ul>
             </div>
-            <div id="user-activities" style="display: none">
+            <div id="user-activities">
                 <h3>Activities</h3>
                 <ul>
+                    <p><%= relatedPosts.length === 0 ? "This user has not commented on other posts yet" : "" %></p>
                     <% for(let i = 0; i < relatedPosts.length; i++) { %>
                         <li>
                             <a href="/posts/<%= relatedPosts[i]._id %>"><h4><%= relatedPosts[i].title %></h4></a>
