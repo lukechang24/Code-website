@@ -142,7 +142,7 @@ button {
     font-size: 5rem;
     color: white;
     cursor: pointer;
-    animation: bounce 0.5s infinite alternate-reverse;
+    animation: bounce 0.3s infinite alternate-reverse;
 }
 
 @keyframes bounce {
@@ -150,7 +150,7 @@ button {
         bottom: 3rem;
     }
     to {
-        bottom: 4rem;
+        bottom: 3.5rem;
     }
 }
 
@@ -198,7 +198,7 @@ button {
 .title a {
     text-decoration: none;
     color: black;
-    display: block;
+    width: 100%;
     font-family: 'Abel', sans-serif;
     font-weight: lighter;
 }
@@ -206,9 +206,20 @@ button {
 .description {
     width: 40%;
     display: flex;
-    justify-content: space-around;
     align-items: center;
     margin: 0 1rem;
+}
+
+.description div:nth-child(1) {
+    width: 50%;
+}
+
+.description div:nth-child(2) {
+    width: 25%;
+}
+
+.description div:nth-child(3) {
+    width: 25%;
 }
 
 #post-show-page, #post-edit-page {
@@ -222,23 +233,27 @@ button {
     background-position: center center;
 }
 
-#post-show-page .nav {
+.nav {
     position: fixed;
     top: 0;
-    width: 100vw;
+    width: 100%;
+}
+
+#container {
+    min-height: 40rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+    margin: 7rem 0rem 2rem 0;
 }
 
 #post-container {
     width: 70rem;
-    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 10px 5px hsla(0, 0%, 0%, 0.350);
-    margin: 6.5rem 0 3rem 0;
 }
 
 #post-header {
-    margin: 1rem;
+    margin: 2rem;
     border-bottom: 0.1rem solid black;
 }
 
@@ -252,20 +267,15 @@ button {
     width: 80%;
 }
 
-#post-container div:nth-child(2) {
-    height: 80%;
-    margin: 1rem;
-}
-
-#post-body {
+#post-body, #edit-post-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 5rem;
+    margin: 0 2rem 2rem 2rem;
 }
 
 #post-body p {
-    padding-left: 0.5rem;
+    padding: 0.3rem;
 }
 
 #post-container pre {
@@ -275,18 +285,14 @@ button {
 }
 
 #comments-container {
-    min-height: 30rem;
     width: 70rem;
-    margin-bottom: 1.5rem;
-    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 0 10px 5px hsla(0, 0%, 0%, 0.350);
 }
 
 #comment-input {
-    width: 80%;
+    width: 50rem;
 }
 
 #comment-input form {
@@ -297,13 +303,22 @@ button {
 }
 
 .comments-div {
-    width: 80%;
-    margin: 1rem;
+    width: 50rem;
+    margin: 0 2rem 2rem 2rem;
+    background-color: whitesmoke;
 }
 
 .comments-div div {
     display: flex;
     justify-content: space-between;
+}
+
+.comments-div pre {
+    font-family: 'Kurale', serif;
+}
+
+.top-comment {
+    border: 0.1rem solid red;
 }
 
 #comment-input textarea {
@@ -328,7 +343,7 @@ button {
 }
 
 #like-button:focus {
-    outline: none;
+    outline: black;
     box-shadow: none;
 }
 
@@ -339,6 +354,7 @@ button {
 
 #delete-button {
     color: red;
+    margin-right: 0.5rem;
 }
 
 #edit-title {
@@ -348,8 +364,6 @@ button {
 #edit-post-body {
     display: flex;
     flex-direction: column;
-    height: 80%;
-    margin-top: 3rem;
 }
 
 #edit-post-body textarea {
@@ -366,7 +380,7 @@ button {
     width: 100%;
     margin: 0;
     background-color: midnightblue;
-    z-index: 1;
+    z-index: 3;
 }
 
 .nav-header {

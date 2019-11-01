@@ -7,12 +7,18 @@ const session = require("express-session");
 const User = require("../models/users")
 
 router.get("/login", (req, res) => {
+    if(!req.headers.referer.indexOf("signup")) {
+        req.session.previousURL = req.headers.referer;
+    }
     res.render("auth/login", {
         message: ""
     })
 })
 
 router.get("/signup", (req, res) => {
+    if(!req.headers.referer.indexOf("login")) {
+        req.session.previousURL = req.headers.referer;
+    }
     res.render("auth/signup", {
         message: "",
     })
@@ -30,9 +36,9 @@ router.post("/login", async (req, res) => {
                 }
                 req.session.currentUser = currentUser;
                 if(req.session.previousURL) {
-                    res.redirect(req.session.previousURL);
+                    res.redirect(`${req.session.previousURL}${req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") ? "" : "#all-posts"}`);
                 } else {
-                    res.redirect("/posts#nav");
+                    res.redirect("/posts#all-posts");
                 }
             } else {
                 res.render("auth/login", {
@@ -76,9 +82,9 @@ router.post("/signup", async (req, res) => {
                 }
                 req.session.currentUser = currentUser;
                 if(req.session.previousURL) {
-                    res.redirect(req.session.previousURL);
+                    res.redirect(`${req.session.previousURL}${req.session.previousURL.length > 30 && req.session.previousURL.indexOf("posts") ? "" : "#all-posts"}`);
                 } else {
-                    res.redirect("/posts#nav");
+                    res.redirect("/posts#all-posts");
                 }
             }
         }
@@ -89,7 +95,7 @@ router.post("/signup", async (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
-        err ? console.log(err) : res.redirect(`/posts#nav`);
+        err ? console.log(err) : res.redirect(`/posts`);
     })
 })
 

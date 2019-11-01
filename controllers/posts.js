@@ -71,13 +71,8 @@ router.post("/:id/comment", async (req, res) => {
         if(!req.body.comment) {
             res.redirect(`/posts/${req.params.id}`);
         } else if(req.session.currentUser.username) {
-            // let dateFromObjectId = function(id) {
-            //     return new Date(parseInt(id.substring(0, 8), 16) * 1000);
-            // };
             const comment = await Comment.create({postID: req.params.id, creator: {displayName: req.session.currentUser.displayName, userID: req.session.currentUser.userID, username: req.session.currentUser.username}, comment: req.body.comment})
             const post = await Post.findOneAndUpdate({_id: comment.postID}, {$push: {comments: comment}});
-            // const user = await User.findOneAndUpdate({username: req.session.currentUser.username}, {$push: {comments: {comment: req.body.comment, postID: post._id}}});
-            // console.log(dateFromObjectId(comment._id.toString()));
             res.redirect(`/posts/${req.params.id}`);
         } else {
             req.session.previousURL = `/posts/${req.params.id}`;
@@ -117,12 +112,18 @@ router.get("/:id", async (req, res) => {
     try {
         const post = await Post.findOne({_id: req.params.id});
         const currentUser = await User.findOne({username: req.session.currentUser.username}) || {};
-        const comments = await Comment.find({postID: req.params.id});
-        console.log(post.comments.length)
+        let comments = await Comment.find({postID: req.params.id});
+        const sortedComments = [...comments];
+        sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length);
+        const restOfComments = comments.filter(comment => {
+            return !sortedComments.slice(0, 3).includes(comment);
+        })
+        comments = sortedComments.slice(0, 3).concat(restOfComments);
         res.render("posts/show", {
             post,
             currentUser,
             comments,
+            session: req.session
         })
     } catch(err) {
         console.log(err)

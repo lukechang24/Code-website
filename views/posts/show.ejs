@@ -1,67 +1,74 @@
 <%- include("../partials/header") %>
 <body>
+    <%- include("../partials/navbar.ejs", {
+        user: currentUser,
+        whichPage: "post-show-page"
+    }) %>
     <div id="post-show-page">
-        <%- include("../partials/navbar.ejs", {
-            user: currentUser,
-            whichPage: "post-show-page"
-        }) %>
-        <div id="post-container">
-            <div id="post-header">
-                <div id="creator-info">
-                    <h1><%= post.title %></h1>
-                <% if(post.creator.username === currentUser.username) { %>
-                    <form action="/posts/<%= post._id %>/edit">
-                        <button type="submit">Edit Post</button>
-                    </form>
-                    <form action="/posts/<%= post._id %>/?_method=DELETE" method="POST">
-                        <button type="submit">Delete Post</button>
-                    </form>
-                <% } %>
-                </div>
-                <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small>
-            </div>
-            <div id="post-body">
-                <p><%= post.description %></p>
-                <p><pre><%= post.body %></pre></p>
-            </div>
-        </div>
-        <div id="comments-container">
-            <h1>All Comments</h1>
-            <div id="comment-input">
-                <form action="/posts/<%= post._id %>/comment" method="POST">
-                    <textarea id="comment-body" name="comment" placeholder="Add a comment"></textarea>
-                </form>
-            </div>
-            <% if(comments.length === 0) { %>
-                <p>There are no comments</p>
-            <% } %>
-            <% for(let i = 0; i < comments.length; i++) { %>
-                <div class="comments-div">
-                    <p><a href="/users/<%= comments[i].creator.userID %>"><%= comments[i].creator.displayName %></a></p>
-                    <pre><%= comments[i].comment %></pre>
-                    <div>
-                        <form id="like-form" action="/posts/<%= post._id %>/<%= comments[i]._id %>/like" method="POST">
-                            <button id="like-button" type="submit">
-                                <% if(comments[i].likedBy.indexOf(currentUser._id) === -1) { %>
-                                    <img src="/css/images/thumbs-up.png">
-                                <% } else { %>
-                                    <img src="/css/images/thumbs-up-filled.png">
-                                <% } %>
-                            </button>
-                            <%= comments[i].likedBy.length %>
+        <div id="container">
+            <div id="post-container">
+                <div id="post-header">
+                    <div id="creator-info">
+                        <h1><%= post.title %></h1>
+                    <% if(post.creator.username === currentUser.username) { %>
+                        <form action="/posts/<%= post._id %>/edit">
+                            <button type="submit">Edit Post</button>
                         </form>
-                        <% if(post.creator.username === currentUser.username || currentUser.username === comments[i].creator.username) { %>
-                            <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
-                                <button id="delete-button" type="submit">DELETE</button>
-                            </form>
-                        <% } %>
+                        <form action="/posts/<%= post._id %>/?_method=DELETE" method="POST">
+                            <button type="submit">Delete Post</button>
+                        </form>
+                    <% } %>
                     </div>
+                    <small>Posted By: <a href="/users/<%= post.creator.userID %>"><%= post.creator.displayName %></a></small>
                 </div>
-            <% } %>
+                <div id="post-body">
+                    <p><%= post.description %></p>
+                    <p><pre wrap="wrap"><%= post.body %></pre></p>
+                </div>
+            </div>
+            <div id="comments-container">
+                <h1>All Comments</h1>
+                <div id="comment-input">
+                    <form action="/posts/<%= post._id %>/comment" method="POST">
+                        <textarea id="comment-body" name="comment" placeholder="Add a comment"></textarea>
+                    </form>
+                </div>
+                <% if(comments.length === 0) { %>
+                    <p>There are no comments</p>
+                <% } %>
+                <% for(let i = 0; i < comments.length; i++) { %>
+                    <div class="comments-div <%= (i < 3 && comments.length > 3 && comments[i].likedBy.length > 1) ? 'top-comment' : '' %>">
+                        <p><a href="/users/<%= comments[i].creator.userID %>"><%= comments[i].creator.displayName %></a></p>
+                        <pre><%= comments[i].comment %></pre>
+                        <div>
+                            <form id="like-form" action="/posts/<%= post._id %>/<%= comments[i]._id %>/like" method="POST">
+                                <button id="like-button" type="submit">
+                                    <% if(comments[i].likedBy.indexOf(currentUser._id) === -1) { %>
+                                        <img src="/css/images/thumbs-up.png">
+                                    <% } else { %>
+                                        <img src="/css/images/thumbs-up-filled.png">
+                                    <% } %>
+                                </button>
+                                <%= comments[i].likedBy.length %>
+                            </form>
+                            <% if(post.creator.username === currentUser.username || currentUser.username === comments[i].creator.username) { %>
+                                <form action="/posts/<%= post._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
+                                    <button id="delete-button" type="submit">DELETE</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </div>
 </body>
 <script>
+    const login = document.querySelector(".nav-right a:nth-child(2)");
+    const session = <%- JSON.stringify(session) %>;
+    login.addEventListener("click", (req, res) => {
+        session.previousURL = "/posts/<%= post._id %>";
+    })
     const commentBody = document.querySelector("#comment-body");
     console.log(commentBody)
     commentBody.addEventListener("keypress", (e) => {
