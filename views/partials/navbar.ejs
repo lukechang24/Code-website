@@ -14,10 +14,8 @@
         </div>
         <div class="nav-right">
             <% if(user.username) { %>
-                <% if(whichPage !== "post-show-page") { %>
+                <% if(whichPage !== "user-show-page") { %>
                     <a href="/users/<%= user.userID %>" class="nav-link"><%= user.displayName.toUpperCase() %></a>
-                <% } else { %>
-                    <a href="/users/<%= user._id %>" class="nav-link"><%= user.displayName.toUpperCase() %></a>
                 <% } %>
                 <a href="/auth/logout" class="nav-link">LOG OUT</a>
             <% } else { %>

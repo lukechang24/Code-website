@@ -115,13 +115,10 @@ router.get("/:id", async (req, res) => {
         sortedComments = sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length).filter(comment => {
             return comment.likedBy.length > 2;
         })
-        console.log(sortedComments, "sorted")
-        // sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length);
         const restOfComments = comments.filter(comment => {
             return !sortedComments.slice(0, 3).includes(comment) || comment.likedBy.length < 3;
         }).reverse();
         comments = sortedComments.slice(0, 3).concat(restOfComments);
-        console.log(comments);
         res.render("posts/show", {
             post,
             currentUser,

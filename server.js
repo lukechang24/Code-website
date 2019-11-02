@@ -20,6 +20,8 @@ app.use((req, res, next) => {
     if(!req.session.currentUser) {
         req.session.currentUser = {};
     }
+    res.locals.user = req.session.currentUser || {};
+    console.log(res.locals.user)
     next();
 });
 
