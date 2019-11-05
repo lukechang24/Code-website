@@ -23,7 +23,6 @@ app.use((req, res, next) => {
         req.session.currentUser = {};
     }
     res.locals.user = req.session.currentUser || {};
-    console.log(res.locals.user)
     next();
 });
 

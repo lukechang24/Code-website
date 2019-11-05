@@ -1,6 +1,7 @@
 <%- include("../partials/header") %>
 <body>
     <%- include("../partials/navbar.ejs", {
+        user: currentUser,
         whichPage: "post-show-page"
     }) %>
     <div id="post-show-page">
@@ -38,7 +39,7 @@
                     <p id="no-comments">There are no comments</p>
                 <% } %>
                 <% for(let i = 0; i < comments.length; i++) { %>
-                    <div class="comments-div <%= (i < 3 && comments.length > 4 && comments[i].likedBy.length > 5) ? 'top-comment' : '' %>">
+                    <div class="comments-div <%= (i < 3 && comments.length > 4 && comments[i].likedBy.length > 2) && sortedComments.length === 3 ? 'top-comment' : '' %>">
                         <p><a href="/users/<%= comments[i].creator.userID %>"><%= comments[i].creator.displayName %></a></p>
                         <pre><%= comments[i].comment %></pre>
                         <div>

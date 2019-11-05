@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
     try {
         if(!req.body.title || !req.body.description || !req.body.body) {
             res.render("posts/new", {
-                message: "Please be as descriptive as possible"
+                message: `${((!req.body.title && !req.body.description) || (!req.body.title && !req.body.body) || (!req.body.description && !req.body.body)) ? "Please specifiy your post further!" : !req.body.title ? "Please make a title for your post" : !req.body.description ? "Please describe your broken code" : "Please paste your broken code"}`
             })
         } else {
             req.body.creator = {username: req.session.currentUser.username, displayName: req.session.currentUser.displayName, userID: req.session.currentUser.userID};
@@ -93,9 +93,7 @@ router.post("/:id/:commentID/like", async (req, res) => {
             const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
             if(!likeComment) {
                 const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
-                console.log(dislikeComment)
             }
-            console.log(likeComment);
             res.redirect(`/posts/${req.params.id}`);
         } else {
             req.session.previousURL = req.headers.referer;
@@ -114,12 +112,13 @@ router.get("/:id", async (req, res) => {
         const currentUser = await User.findOne({username: req.session.currentUser.username}) || {};
         let comments = await Comment.find({postID: req.params.id});
         let sortedComments = [...comments];
-        sortedComments = sortedComments.sort((a, b) => a.likedBy.length < b.likedBy.length).filter(comment => {
+        sortedComments = sortedComments.sort((a, b) => b.likedBy.length - a.likedBy.length).filter(comment => {
             return comment.likedBy.length > 2;
         })
         const restOfComments = comments.filter(comment => {
             return !sortedComments.slice(0, 3).includes(comment) || comment.likedBy.length < 3;
         }).reverse();
+        console.log(sortedComments);
         comments = sortedComments.slice(0, 3).concat(restOfComments);
         res.render("posts/show", {
             post,
@@ -135,7 +134,6 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id/:commentID", async (req, res) => {
     try {
-        console.log("HEY")
         const deletedComment = await Comment.findByIdAndRemove(req.params.commentID);
         const post = await Post.findById(req.params.id);
         post.comments = post.comments.filter(comment => {
