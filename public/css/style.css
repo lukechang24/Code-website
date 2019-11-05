@@ -322,6 +322,8 @@ button {
 
 .comments-div pre {
     font-family: 'Kurale', serif;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .top-comment {

@@ -93,7 +93,9 @@ router.post("/:id/:commentID/like", async (req, res) => {
             const likeComment = await Comment.findOneAndUpdate({_id: req.params.commentID, likedBy: {$ne: req.session.currentUser.userID}}, {$push: {likedBy: req.session.currentUser.userID}});
             if(!likeComment) {
                 const dislikeComment = await Comment.findByIdAndUpdate(req.params.commentID, {$pull: {likedBy: req.session.currentUser.userID}})
+                console.log(dislikeComment)
             }
+            console.log(likeComment);
             res.redirect(`/posts/${req.params.id}`);
         } else {
             req.session.previousURL = `/posts/${req.params.id}`;
