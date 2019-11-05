@@ -1,7 +1,11 @@
 <%- include("../partials/header") %>
 <body>
+    <%- include("../partials/navbar.ejs", {
+        user: user,
+        whichPage: "user-show-page"
+    }) %>
     <div id="user-show-page">
-        <h1><%= user.displayName %></h1>
+        <!-- <h1><%= user.displayName %></h1> -->
         <div id="container">
             <div id="options">
                 <p>Posts</p>
@@ -54,11 +58,15 @@
     const userActivitiesButton = document.querySelector("#options p:nth-child(2)");
     userPostsButton.addEventListener("click", () => {
         userActivities.style.display = "none";
+        userActivitiesButton.style.backgroundColor = "inherit"
         userPosts.style.display = "flex";
+        userPostsButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
     })
     userActivitiesButton.addEventListener("click", () => {
         userPosts.style.display = "none";
+        userPostsButton.style.backgroundColor = "inherit"
         userActivities.style.display = "flex";
+        userActivitiesButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
     })
 </script>
 </html>

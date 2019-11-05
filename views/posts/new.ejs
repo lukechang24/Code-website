@@ -1,7 +1,9 @@
 <%- include("../partials/header") %>
 <body>
+        <%- include("../partials/navbar.ejs", {
+            whichPage: "post-show-page"
+        }) %>
     <div id="post-new-page">
-        <h1>Describe Your Code</h1>
         <div id="container">
             <form action="/posts" method="POST">
                 <div id="post-container">
@@ -13,6 +15,9 @@
                             <option value="Javascript">Javascript</option>
                             <option value="CSS">CSS</option>
                             <option value="HTML">HTML</option>
+                            <option value="Express">Express</option>
+                            <option value="NodeJs">NodeJs</option>
+                            <option value="MongoDB">MongoDB</option>
                         </select>
                     </div>
                     <div id="new-post-body">
@@ -21,6 +26,7 @@
                     </div>
                 </div>
                 <button id="new-button" type="submit">Create Post</button>
+                <small><%= message %></small>
             </form>
         </div>
     </div>

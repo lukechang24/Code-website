@@ -26,7 +26,7 @@ router.get("/signup", (req, res) => {
 
 router.post("/login", async (req, res) => {
     try {
-        const user = await User.findOne({username: req.body.username});
+        const user = await User.findOne({username: req.body.username.toLowerCase()});
         if(user) {
             if(bcrypt.compareSync(req.body.password, user.password)) {
                 const currentUser = {
@@ -62,7 +62,7 @@ router.post("/signup", async (req, res) => {
                 message: "Please fill out the entire form"
             })
         } else {
-            const userExists = await User.findOne({username: req.body.username});
+            const userExists = await User.findOne({username: req.body.username.toLowerCase()});
             if(userExists) {
                 res.render("auth/signup", {
                     message: "This username already exists. Please choose another one."
@@ -71,7 +71,7 @@ router.post("/signup", async (req, res) => {
                 const password = req.body.password;
                 const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
                 const userDb = {};
-                userDb.username = req.body.username;
+                userDb.username = req.body.username.toLowerCase();
                 userDb.password = passwordHash;
                 userDb.displayName = req.body.displayName;
                 const createdUser = await User.create(userDb);

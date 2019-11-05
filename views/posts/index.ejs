@@ -4,10 +4,9 @@
         <div id="title-cover">
         </div>
         <h1>FIX YOUR CODE</h1>
-        <i id="down-arrow" class="fas fa-angle-double-down"></i>
+        <div id="down-div"><i id="down-arrow" class="fas fa-angle-double-down"></i></div>
     </div>
     <%- include("../partials/navbar.ejs", {
-        user: user,
         whichPage: "post-index-page"
     }) %>
     <div id="all-posts">
@@ -19,8 +18,8 @@
             <div class="posts">
                 <div class="title">
                     <a href="/posts/<%= posts[i]._id %>">
-                        <% if(posts[i].title.length > 32) { %>
-                            <%= posts[i].title.substring(0, 32) %>...
+                        <% if(posts[i].title.length > 40) { %>
+                            <%= posts[i].title.substring(0, 40) %>...
                         <% } else { %>
                             <%= posts[i].title %>
                         <% } %>

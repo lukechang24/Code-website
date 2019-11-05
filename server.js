@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-const PORT = 4000;
+
+require("dotenv").config();
 require("./db/db");
+const PORT = process.env.PORT;
 
 const methodOverride = require("method-override");
 const session = require("express-session");
@@ -20,6 +22,8 @@ app.use((req, res, next) => {
     if(!req.session.currentUser) {
         req.session.currentUser = {};
     }
+    res.locals.user = req.session.currentUser || {};
+    console.log(res.locals.user)
     next();
 });
 
@@ -31,9 +35,9 @@ app.use("/users", usersController);
 app.use("/posts", postsController);
 
 app.get("/", (req, res) => {
-    res.render("homepage")
+    res.redirect("/posts");
 })
 
 app.listen(PORT, () => {
-    console.log("listening")
+    console.log(`${PORT}`)
 })
