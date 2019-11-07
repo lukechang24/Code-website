@@ -2,6 +2,7 @@
 
 # FIX YOUR CODE
 A website dedicated to helping people fix their broken code, prioritizing mainly Javascript, HTML, and CSS.
+https://fix-your-code.herokuapp.com/posts
 
 # LANGUAGES USED
 Javascript, CSS, HTML, NodeJS, express, mongodb
