@@ -96,6 +96,16 @@ button {
     color: white;
 }
 
+.auth-div div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-div a {
+    margin-top: 0.5rem;
+}
+
 .auth-div small {
     margin: 0 4rem;
     text-align: center;
@@ -503,7 +513,7 @@ button {
     margin-top: 2rem;
 }
 
-#options p:nth-child(1) {
+#options p:nth-child(2) {
     background-color: rgba(0, 0, 0, 0.151);
 }
 

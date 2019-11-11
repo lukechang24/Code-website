@@ -57,15 +57,15 @@
     const userActivitiesButton = document.querySelector("#options p:nth-child(2)");
     userPostsButton.addEventListener("click", () => {
         userActivities.style.display = "none";
-        userActivitiesButton.style.backgroundColor = "inherit"
         userPosts.style.display = "flex";
-        userPostsButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
+        userActivitiesButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
+        userPostsButton.style.backgroundColor = "inherit"
     })
     userActivitiesButton.addEventListener("click", () => {
         userPosts.style.display = "none";
-        userPostsButton.style.backgroundColor = "inherit"
         userActivities.style.display = "flex";
-        userActivitiesButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
+        userPostsButton.style.backgroundColor = "rgba(0, 0, 0, 0.151)";
+        userActivitiesButton.style.backgroundColor = "inherit"
     })
 </script>
 </html>
